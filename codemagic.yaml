@@ -13,27 +13,34 @@ workflows:
       vars:
         FCI_FLUTTER_SCHEME: manual
         BUNDLE_ID: "com.enjpbridge.app"
-      groups:
-        - ios_credentials
     
     scripts:
+      - name: Set up keychain
+        script: |
+          keychain initialize
+      
+      - name: Fetch signing files
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+      
+      - name: Add certificates to keychain
+        script: |
+          keychain add-certificates
+      
       - name: Get Flutter packages
         script: |
           cd $CM_BUILD_DIR/app
           flutter pub get
       
-      - name: Set up code signing
-        script: |
-          cd $CM_BUILD_DIR/app
-          keychain initialize
-          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
-          keychain add-certificates
-          xcode-project use-profiles
-      
       - name: Install CocoaPods
         script: |
           cd $CM_BUILD_DIR/app/ios
           pod install
+      
+      - name: Set up code signing settings
+        script: |
+          cd $CM_BUILD_DIR/app
+          xcode-project use-profiles
       
       - name: Build iOS
         script: |
