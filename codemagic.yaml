@@ -3,37 +3,40 @@ workflows:
     name: iOS Release
     max_build_duration: 60
     instance_type: mac_mini_m2
-    working_directory: app
     
     environment:
       flutter: stable
       xcode: latest
       cocoapods: default
       vars:
-        FLUTTER_PROJECT_DIR: app
+        FCI_FLUTTER_SCHEME: manual
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.enjpbridge.app
     
     scripts:
-      - name: Set up code signing
-        script: |
-          xcode-project use-profiles
-      
       - name: Get Flutter packages
         script: |
+          cd $CM_BUILD_DIR/app
           flutter pub get
+      
+      - name: Set up code signing
+        script: |
+          cd $CM_BUILD_DIR/app
+          xcode-project use-profiles
       
       - name: Install CocoaPods
         script: |
-          cd ios && pod install
+          cd $CM_BUILD_DIR/app/ios
+          pod install
       
       - name: Build iOS
         script: |
+          cd $CM_BUILD_DIR/app
           flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
     
     artifacts:
-      - build/ios/ipa/*.ipa
+      - app/build/ios/ipa/*.ipa
     
     publishing:
       app_store_connect:
@@ -45,27 +48,29 @@ workflows:
     name: Android Release
     max_build_duration: 30
     instance_type: mac_mini_m2
-    working_directory: app
     
     environment:
       flutter: stable
       java: 17
       vars:
-        FLUTTER_PROJECT_DIR: app
+        FCI_FLUTTER_SCHEME: manual
     
     scripts:
       - name: Get Flutter packages
         script: |
+          cd $CM_BUILD_DIR/app
           flutter pub get
       
       - name: Build APK
         script: |
+          cd $CM_BUILD_DIR/app
           flutter build apk --release
       
       - name: Build App Bundle
         script: |
+          cd $CM_BUILD_DIR/app
           flutter build appbundle --release
     
     artifacts:
-      - build/app/outputs/**/*.apk
-      - build/app/outputs/**/*.aab
+      - app/build/app/outputs/**/*.apk
+      - app/build/app/outputs/**/*.aab
