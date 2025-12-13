@@ -13,7 +13,7 @@ workflows:
       vars:
         FCI_FLUTTER_SCHEME: manual
       ios_signing:
-        distribution_type: development
+        distribution_type: app_store
         bundle_identifier: com.enjpbridge.app
     
     scripts:
