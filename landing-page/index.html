@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Drop Alert - Track Prices & Save Money</title>
+    <meta name="description" content="Never miss a price drop again! Track prices from Amazon, Best Buy, Walmart & 50+ stores. Get instant alerts when prices fall.">
+    <meta name="keywords" content="price tracker, price drop alert, amazon price tracker, deal finder, shopping assistant">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Price Drop Alert - Track Prices & Save Money">
+    <meta property="og:description" content="Track prices from 50+ stores. Get alerts when prices drop.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pricedropalert.app">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 20px 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* App Preview */
+        .app-preview {
+            max-width: 350px;
+            margin: 50px auto 0;
+            perspective: 1000px;
+        }
+        
+        .phone-mockup {
+            background: #1a1a2e;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            transform: rotateY(-5deg) rotateX(5deg);
+            transition: transform 0.5s;
+        }
+        
+        .phone-mockup:hover {
+            transform: rotateY(0deg) rotateX(0deg);
+        }
+        
+        .phone-screen {
+            background: #f5f5f5;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+        }
+        
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 100px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 20px;
+            background: #f8f9ff;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Stores Section */
+        .stores {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #f8f9ff 0%, white 100%);
+        }
+        
+        .stores-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .store-badge {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #555;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .store-badge span {
+            font-size: 1.2rem;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            background: white;
+            padding: 100px 20px;
+        }
+        
+        .steps {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+        
+        .step h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .step p {
+            color: #666;
+        }
+        
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 20px 30px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-bottom p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        .affiliate-disclosure {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .affiliate-disclosure p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <div class="logo-icon">📉</div>
+                Price Drop Alert
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#stores">Stores</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Never Miss a Price Drop</h1>
+        <p>Track prices from Amazon, Best Buy, Walmart & 50+ stores. Get instant alerts when prices fall to your target.</p>
+        <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2H6.477C5.1 2 4 3.1 4 4.477v15.046C4 20.9 5.1 22 6.477 22h11.046C18.9 22 20 20.9 20 19.523V4.477C20 3.1 18.9 2 17.523 2zM12 20c-.828 0-1.5-.672-1.5-1.5S11.172 17 12 17s1.5.672 1.5 1.5S12.828 20 12 20zm5-4H7V5h10v11z"/></svg>
+                Download App
+            </a>
+            <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+        
+        <div class="app-preview">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <img src="app-screenshot.png" alt="Price Drop Alert App" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360 780%22><rect fill=%22%23667eea%22 width=%22360%22 height=%22780%22/><text x=%22180%22 y=%22350%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-family=%22Arial%22>📉 Price Drop Alert</text><text x=%22180%22 y=%22400%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22>Track • Alert • Save</text></svg>'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>Why Price Drop Alert?</h2>
+            <p>Everything you need to save money while shopping online</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Instant Price Alerts</h3>
+                <p>Get push notifications the moment prices drop below your target. Never miss a deal again.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Price History Charts</h3>
+                <p>View 30-day price history to make informed buying decisions. Know if it's really a good deal.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🏪</div>
+                <h3>50+ Stores Supported</h3>
+                <p>Track prices from Amazon, Best Buy, Walmart, Target, eBay, and many more stores.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Set Target Prices</h3>
+                <p>Set your ideal price for any product. We'll notify you when it hits your target.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Easy to Use</h3>
+                <p>Just paste a product URL and we'll do the rest. Simple, fast, and effective.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>100% Free</h3>
+                <p>Track up to 10 products completely free. No hidden fees or subscriptions required.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stores Section -->
+    <section class="stores" id="stores">
+        <div class="section-title">
+            <h2>Supported Stores</h2>
+            <p>Track prices from your favorite retailers</p>
+        </div>
+        
+        <div class="stores-grid">
+            <div class="store-badge"><span>🛒</span> Amazon</div>
+            <div class="store-badge"><span>🏪</span> Best Buy</div>
+            <div class="store-badge"><span>🛍️</span> Walmart</div>
+            <div class="store-badge"><span>🎯</span> Target</div>
+            <div class="store-badge"><span>💻</span> Newegg</div>
+            <div class="store-badge"><span>🛒</span> eBay</div>
+            <div class="store-badge"><span>🍎</span> Apple</div>
+            <div class="store-badge"><span>📱</span> Samsung</div>
+            <div class="store-badge"><span>🏠</span> Home Depot</div>
+            <div class="store-badge"><span>🔧</span> Lowe's</div>
+            <div class="store-badge"><span>💄</span> Sephora</div>
+            <div class="store-badge"><span>👟</span> Nike</div>
+            <div class="store-badge"><span>👗</span> Nordstrom</div>
+            <div class="store-badge"><span>🎮</span> GameStop</div>
+            <div class="store-badge"><span>📚</span> B&H Photo</div>
+            <div class="store-badge">+ 40 more stores</div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p>Start saving money in 3 simple steps</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Copy Product URL</h3>
+                <p>Find a product you want to track and copy the URL from your browser.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Set Target Price</h3>
+                <p>Paste the URL in the app and set your desired price point.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Get Notified</h3>
+                <p>Receive instant alerts when the price drops. Buy at the perfect moment!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Start Saving Today</h2>
+        <p>Join thousands of smart shoppers who never overpay</p>
+        <a href="#" class="btn btn-primary">
+            Download Free App
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Price Drop Alert</h4>
+                <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                    The smart way to shop online. Track prices, get alerts, save money.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#stores">Supported Stores</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:support@pricedropalert.app">support@pricedropalert.app</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="affiliate-disclosure">
+            <p><strong>Affiliate Disclosure:</strong> Price Drop Alert is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. As an Amazon Associate, we earn from qualifying purchases. This does not affect the price you pay.</p>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Price Drop Alert. All rights reserved.</p>
+            <p>Made with ❤️ for smart shoppers</p>
+        </div>
+    </footer>
+</body>
+</html>
