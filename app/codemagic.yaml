@@ -13,7 +13,7 @@ workflows:
         - app_store_credentials
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.pricedropalert.app
+        bundle_identifier: com.enjpbridge.app
     
     scripts:
       - name: Set up code signing
