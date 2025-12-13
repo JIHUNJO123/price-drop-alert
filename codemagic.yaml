@@ -10,8 +10,6 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
-      groups:
-        - ios_credentials
       vars:
         BUNDLE_ID: "com.pricedropalert.app"
     
