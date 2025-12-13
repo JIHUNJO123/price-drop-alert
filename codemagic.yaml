@@ -21,10 +21,9 @@ workflows:
       
       - name: Create certificate and fetch signing files
         script: |
-          # Use automatic code signing - Codemagic manages certificates
+          # Use existing certificate from Apple Developer Portal
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
-            --type IOS_APP_STORE \
-            --create
+            --type IOS_APP_STORE
       
       - name: Add certificates to keychain
         script: |
