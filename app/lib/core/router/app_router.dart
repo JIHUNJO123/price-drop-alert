@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
@@ -14,22 +15,33 @@ import '../../features/settings/presentation/pages/help_center_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../providers/auth_provider.dart';
 
+// Onboarding completed state provider
+final onboardingCompletedProvider = StateProvider<bool>((ref) => false);
+
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
+  final onboardingCompleted = ref.watch(onboardingCompletedProvider);
   
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
       final isLoggedIn = authState.isLoggedIn;
       final isOnAuthPage = state.matchedLocation == '/login' || 
-                           state.matchedLocation == '/register' ||
-                           state.matchedLocation == '/onboarding';
+                           state.matchedLocation == '/register';
+      final isOnOnboarding = state.matchedLocation == '/onboarding';
       
-      if (!isLoggedIn && !isOnAuthPage) {
-        return '/onboarding';
+      // If not logged in and not on auth pages
+      if (!isLoggedIn && !isOnAuthPage && !isOnOnboarding) {
+        // Show onboarding only if not completed yet
+        if (!onboardingCompleted) {
+          return '/onboarding';
+        }
+        // Otherwise go to login
+        return '/login';
       }
       
-      if (isLoggedIn && isOnAuthPage) {
+      // If logged in and on auth/onboarding pages, go to home
+      if (isLoggedIn && (isOnAuthPage || isOnOnboarding)) {
         return '/';
       }
       

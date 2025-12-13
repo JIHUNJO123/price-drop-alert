@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -24,9 +25,17 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   
+  // Load onboarding state
+  final prefs = await SharedPreferences.getInstance();
+  final onboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
+  
   runApp(
-    const ProviderScope(
-      child: PriceDropAlertApp(),
+    ProviderScope(
+      overrides: [
+        // Initialize onboarding state from SharedPreferences
+        onboardingCompletedProvider.overrideWith((ref) => onboardingCompleted),
+      ],
+      child: const PriceDropAlertApp(),
     ),
   );
 }
