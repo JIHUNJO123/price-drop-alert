@@ -1,0 +1,69 @@
+workflows:
+  ios-workflow:
+    name: iOS Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    working_directory: app
+    
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.pricedropalert.app
+    
+    scripts:
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
+      
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      
+      - name: Install CocoaPods
+        script: |
+          cd ios && pod install
+      
+      - name: Build iOS
+        script: |
+          flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
+    
+    artifacts:
+      - build/ios/ipa/*.ipa
+    
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
+
+  android-workflow:
+    name: Android Release
+    max_build_duration: 30
+    instance_type: mac_mini_m2
+    working_directory: app
+    
+    environment:
+      flutter: stable
+      java: 17
+    
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      
+      - name: Build APK
+        script: |
+          flutter build apk --release
+      
+      - name: Build App Bundle
+        script: |
+          flutter build appbundle --release
+    
+    artifacts:
+      - build/app/outputs/**/*.apk
+      - build/app/outputs/**/*.aab
