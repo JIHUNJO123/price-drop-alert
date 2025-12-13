@@ -1,0 +1,6 @@
+name: price_drop_alert_root
+description: Root pubspec for Codemagic - actual app is in /app folder
+version: 1.0.0
+
+environment:
+  sdk: ^3.8.0

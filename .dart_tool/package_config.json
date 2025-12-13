@@ -1,0 +1,16 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "price_drop_alert_root",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    }
+  ],
+  "generator": "pub",
+  "generatorVersion": "3.10.3",
+  "flutterRoot": "file:///C:/Users/hooni/flutter",
+  "flutterVersion": "3.38.4",
+  "pubCache": "file:///C:/Users/hooni/AppData/Local/Pub/Cache"
+}

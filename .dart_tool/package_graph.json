@@ -1,0 +1,14 @@
+{
+  "roots": [
+    "price_drop_alert_root"
+  ],
+  "packages": [
+    {
+      "name": "price_drop_alert_root",
+      "version": "1.0.0",
+      "dependencies": [],
+      "devDependencies": []
+    }
+  ],
+  "configVersion": 1
+}
