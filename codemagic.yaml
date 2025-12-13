@@ -12,7 +12,7 @@ workflows:
       cocoapods: default
       vars:
         FCI_FLUTTER_SCHEME: manual
-        BUNDLE_ID: "com.enjpbridge.app"
+        BUNDLE_ID: "com.pricedropalert.app"
     
     scripts:
       - name: Set up keychain
