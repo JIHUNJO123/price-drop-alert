@@ -125,7 +125,7 @@ class SupportedStoresPage extends StatelessWidget {
 
   Widget _buildStoreChip(BuildContext context, StoreInfo store) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(20),
@@ -133,33 +133,9 @@ class SupportedStoresPage extends StatelessWidget {
           color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: store.color,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Center(
-              child: Text(
-                store.name[0].toUpperCase(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            store.name,
-            style: const TextStyle(fontSize: 13),
-          ),
-        ],
+      child: Text(
+        store.name,
+        style: const TextStyle(fontSize: 13),
       ),
     );
   }
