@@ -50,8 +50,7 @@ workflows:
       
       - name: Set up code signing settings
         script: |
-          cd $CM_BUILD_DIR/app
-          xcode-project use-profiles --project ios/Runner.xcodeproj
+          xcode-project use-profiles --project $CM_BUILD_DIR/app/ios/Runner.xcodeproj
       
       - name: Build iOS
         script: |
