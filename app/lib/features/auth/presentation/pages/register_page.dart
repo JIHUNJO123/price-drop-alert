@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'terms_page.dart';
+import 'privacy_page.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -93,10 +95,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       controller: _nameController,
                       textInputAction: TextInputAction.next,
                       textCapitalization: TextCapitalization.words,
+                      maxLength: 50,
                       decoration: const InputDecoration(
                         labelText: 'Name (optional)',
                         prefixIcon: Icon(Icons.person_outlined),
+                        helperText: '2-50 characters, letters & numbers only',
+                        counterText: '',
                       ),
+                      validator: (value) {
+                        if (value != null && value.trim().isNotEmpty) {
+                          if (value.trim().length < 2) {
+                            return 'Name must be at least 2 characters';
+                          }
+                          if (!RegExp(r'^[a-zA-Z0-9\s\-_.]+$').hasMatch(value)) {
+                            return 'Only letters, numbers, spaces, -, _, . allowed';
+                          }
+                        }
+                        return null;
+                      },
                     ),
                     
                     const SizedBox(height: 16),
@@ -109,13 +125,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         prefixIcon: Icon(Icons.email_outlined),
+                        helperText: 'Valid email address required',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
-                        if (!value.contains('@')) {
-                          return 'Please enter a valid email';
+                        // More comprehensive email validation
+                        final emailRegex = RegExp(
+                          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                        );
+                        if (!emailRegex.hasMatch(value)) {
+                          return 'Please enter a valid email address';
                         }
                         return null;
                       },
@@ -128,9 +149,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       textInputAction: TextInputAction.done,
+                      maxLength: 128,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         prefixIcon: const Icon(Icons.lock_outlined),
+                        helperText: 'Min 8 chars: uppercase, lowercase, number',
+                        counterText: '',
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword 
@@ -148,6 +172,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         }
                         if (value.length < 8) {
                           return 'Password must be at least 8 characters';
+                        }
+                        if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                          return 'Password must contain an uppercase letter';
+                        }
+                        if (!RegExp(r'[a-z]').hasMatch(value)) {
+                          return 'Password must contain a lowercase letter';
+                        }
+                        if (!RegExp(r'[0-9]').hasMatch(value)) {
+                          return 'Password must contain a number';
                         }
                         return null;
                       },
@@ -171,39 +204,47 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         ),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() => _agreedToTerms = !_agreedToTerms);
-                            },
-                            child: RichText(
-                              text: TextSpan(
-                                style: Theme.of(context).textTheme.bodySmall,
-                                children: [
-                                  TextSpan(
-                                    text: 'I agree to the ',
-                                    style: TextStyle(color: Colors.grey[600]),
-                                  ),
-                                  const TextSpan(
-                                    text: 'Terms of Service',
-                                    style: TextStyle(
-                                      color: AppTheme.primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: ' and ',
-                                    style: TextStyle(color: Colors.grey[600]),
-                                  ),
-                                  const TextSpan(
-                                    text: 'Privacy Policy',
-                                    style: TextStyle(
-                                      color: AppTheme.primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
+                          child: Wrap(
+                            children: [
+                              Text(
+                                'I agree to the ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
                               ),
-                            ),
+                              GestureDetector(
+                                onTap: () => _showTermsOfService(context),
+                                child: const Text(
+                                  'Terms of Service',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppTheme.primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                ' and ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => _showPrivacyPolicy(context),
+                                child: const Text(
+                                  'Privacy Policy',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppTheme.primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -339,6 +380,22 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showTermsOfService(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const TermsOfServicePage(),
+      ),
+    );
+  }
+
+  void _showPrivacyPolicy(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const PrivacyPolicyPage(),
       ),
     );
   }

@@ -13,8 +13,36 @@ from pydantic import BaseModel, EmailStr, HttpUrl, Field, validator
 
 class UserCreate(BaseModel):
     email: EmailStr
-    password: str = Field(..., min_length=8)
-    name: Optional[str] = None
+    password: str = Field(..., min_length=8, max_length=128)
+    name: Optional[str] = Field(None, min_length=2, max_length=50)
+    
+    @validator('password')
+    def password_strength(cls, v):
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters')
+        if len(v) > 128:
+            raise ValueError('Password must be less than 128 characters')
+        if not any(c.isupper() for c in v):
+            raise ValueError('Password must contain at least one uppercase letter')
+        if not any(c.islower() for c in v):
+            raise ValueError('Password must contain at least one lowercase letter')
+        if not any(c.isdigit() for c in v):
+            raise ValueError('Password must contain at least one number')
+        return v
+    
+    @validator('name')
+    def name_valid(cls, v):
+        if v is not None:
+            v = v.strip()
+            if len(v) < 2:
+                raise ValueError('Name must be at least 2 characters')
+            if len(v) > 50:
+                raise ValueError('Name must be less than 50 characters')
+            # Only allow letters, numbers, spaces, and common punctuation
+            import re
+            if not re.match(r'^[a-zA-Z0-9\s\-_.]+$', v):
+                raise ValueError('Name can only contain letters, numbers, spaces, hyphens, underscores, and periods')
+        return v if v else None
 
 
 class UserLogin(BaseModel):
