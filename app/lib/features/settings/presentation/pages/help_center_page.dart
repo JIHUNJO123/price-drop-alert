@@ -216,9 +216,9 @@ class HelpCenterPage extends StatelessWidget {
   void _launchEmail() async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
-      path: 'support@pricedropalert.com',
+      path: 'jihun.jo@yahoo.com',
       queryParameters: {
-        'subject': 'Price Drop Alert - Support Request',
+        'subject': 'MyPriceDrop - Support Request',
       },
     );
     

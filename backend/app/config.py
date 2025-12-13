@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     CRAWL_INTERVAL_HOURS: int = 12
     MAX_PRODUCTS_FREE: int = 10
     MAX_PRODUCTS_PRO: int = 100
-    REQUEST_TIMEOUT: int = 60
+    REQUEST_TIMEOUT: int = 90  # 90 seconds for slow sites like Walmart
     
     # Subscription Pricing (USD)
     PRO_MONTHLY_PRICE: float = 4.99

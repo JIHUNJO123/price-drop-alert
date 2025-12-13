@@ -105,6 +105,9 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
     if (lowerError.contains('already tracking')) {
       return '🔔 You\'re already tracking this product! Check your tracked items.';
     }
+    if (lowerError.contains('access blocked') || lowerError.contains('bot protection')) {
+      return '🛡️ This store has strong security that blocks price tracking. Try a different store like Amazon or Best Buy.';
+    }
     if (lowerError.contains('could not fetch') || lowerError.contains('could not extract price')) {
       return '😕 Couldn\'t get the price from this page. Try copying the direct product URL (not a search page).';
     }
@@ -287,15 +290,47 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                'Target',
+                'Amazon',
                 'Best Buy',
-                'Walmart',
+                'Target',
                 'Nike',
-                'Shopify stores',
+                'Costco',
+                'Home Depot',
+                'Macy\'s',
+                '+ 50 more',
               ].map((store) => Chip(
                 label: Text(store),
                 backgroundColor: Colors.grey[100],
               )).toList(),
+            ),
+            
+            const SizedBox(height: 16),
+            
+            // Warning about some stores
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.amber.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.amber.withOpacity(0.3)),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.info_outline, 
+                    color: Colors.amber[700], size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Some stores (like Walmart) have strong security that may block price tracking. Works best with Amazon, Best Buy, Target, and most other major retailers.',
+                      style: TextStyle(
+                        color: Colors.amber[900],
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

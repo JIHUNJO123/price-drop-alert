@@ -7,10 +7,14 @@ import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/providers/theme_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 
+import 'package:in_app_review/in_app_review.dart';
+
 // 설정 상태 관리
 final pushNotificationsProvider = StateProvider<bool>((ref) => true);
-final emailNotificationsProvider = StateProvider<bool>((ref) => true);
 final selectedPlanProvider = StateProvider<String?>((ref) => null);
+
+// Support email
+const String supportEmail = 'jihun.jo@yahoo.com';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -18,7 +22,6 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pushNotifications = ref.watch(pushNotificationsProvider);
-    final emailNotifications = ref.watch(emailNotificationsProvider);
     final themeMode = ref.watch(themeModeProvider);
     
     return Scaffold(
@@ -90,24 +93,6 @@ class SettingsPage extends ConsumerWidget {
                   },
                 ),
               ),
-              _SettingsTile(
-                icon: Icons.email_outlined,
-                title: 'Email Notifications',
-                subtitle: 'Receive alerts via email',
-                trailing: Switch(
-                  value: emailNotifications,
-                  onChanged: (value) {
-                    ref.read(emailNotificationsProvider.notifier).state = value;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(value 
-                            ? 'Email notifications enabled' 
-                            : 'Email notifications disabled'),
-                      ),
-                    );
-                  },
-                ),
-              ),
             ],
           ),
           
@@ -150,12 +135,12 @@ class SettingsPage extends ConsumerWidget {
               _SettingsTile(
                 icon: Icons.feedback_outlined,
                 title: 'Send Feedback',
-                onTap: () => _showFeedbackDialog(context),
+                onTap: () => _sendFeedbackEmail(),
               ),
               _SettingsTile(
                 icon: Icons.star_outline,
                 title: 'Rate the App',
-                onTap: () => _showRatingDialog(context),
+                onTap: () => _rateApp(context),
               ),
             ],
           ),
@@ -168,12 +153,12 @@ class SettingsPage extends ConsumerWidget {
               _SettingsTile(
                 icon: Icons.description_outlined,
                 title: 'Terms of Service',
-                onTap: () => _openUrl('https://pricedropalert.com/terms'),
+                onTap: () => _openUrl('https://mypricedrop.vercel.app/terms.html'),
               ),
               _SettingsTile(
                 icon: Icons.privacy_tip_outlined,
                 title: 'Privacy Policy',
-                onTap: () => _openUrl('https://pricedropalert.com/privacy'),
+                onTap: () => _openUrl('https://mypricedrop.vercel.app/privacy.html'),
               ),
             ],
           ),
@@ -217,7 +202,7 @@ class SettingsPage extends ConsumerWidget {
     switch (mode) {
       case ThemeMode.light: return 'Light';
       case ThemeMode.dark: return 'Dark';
-      default: return 'System default';
+      default: return 'Light';
     }
   }
 
@@ -266,22 +251,10 @@ class SettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Dark Mode'),
+        title: const Text('Theme'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            RadioListTile<ThemeMode>(
-              title: const Text('System default'),
-              value: ThemeMode.system,
-              groupValue: currentMode,
-              onChanged: (value) {
-                ref.read(themeModeProvider.notifier).setThemeMode(value!);
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Theme set to System default')),
-                );
-              },
-            ),
             RadioListTile<ThemeMode>(
               title: const Text('Light'),
               value: ThemeMode.light,
@@ -342,44 +315,35 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  void _showFeedbackDialog(BuildContext context) {
-    final controller = TextEditingController();
-    
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Send Feedback'),
-        content: TextField(
-          controller: controller,
-          maxLines: 4,
-          decoration: const InputDecoration(
-            hintText: 'Tell us what you think...',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Thank you for your feedback!'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            },
-            child: const Text('Send'),
-          ),
-        ],
-      ),
+  Future<void> _sendFeedbackEmail() async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: supportEmail,
+      queryParameters: {
+        'subject': 'MyPriceDrop - Feedback',
+        'body': 'Hi,\n\nI would like to share my feedback:\n\n',
+      },
     );
+    
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    }
   }
 
-  void _showRatingDialog(BuildContext context) {
+  Future<void> _rateApp(BuildContext context) async {
+    final InAppReview inAppReview = InAppReview.instance;
+    
+    if (await inAppReview.isAvailable()) {
+      await inAppReview.requestReview();
+    } else {
+      // Fallback: open App Store/Play Store directly
+      await inAppReview.openStoreListing(
+        appStoreId: '6756520351', // Your App Store ID
+      );
+    }
+  }
+
+  void _showRatingDialogLegacy(BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -387,7 +351,7 @@ class SettingsPage extends ConsumerWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Enjoying Price Drop Alert?'),
+            const Text('Enjoying MyPriceDrop?'),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -7,7 +7,7 @@ final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((r
 });
 
 class ThemeModeNotifier extends StateNotifier<ThemeMode> {
-  ThemeModeNotifier() : super(ThemeMode.system);
+  ThemeModeNotifier() : super(ThemeMode.light);
 
   void setThemeMode(ThemeMode mode) {
     state = mode;
@@ -22,7 +22,7 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
         state = ThemeMode.dark;
         break;
       default:
-        state = ThemeMode.system;
+        state = ThemeMode.light;
     }
   }
 
@@ -33,7 +33,7 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
       case ThemeMode.dark:
         return 'dark';
       default:
-        return 'system';
+        return 'light';
     }
   }
 }
