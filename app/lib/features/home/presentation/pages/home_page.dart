@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/product_provider.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final productState = ref.watch(productProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: SafeArea(
@@ -48,14 +50,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Hello! 👋',
+                                '${l10n.appTitle} 👋',
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   color: Colors.grey[600],
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Never Overpay',
+                                l10n.trackProduct,
                                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -88,25 +90,25 @@ class _HomePageState extends ConsumerState<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: [
                       StatsCard(
-                        title: 'Tracking',
+                        title: l10n.products,
                         value: '${productState.products.length}',
-                        subtitle: 'products',
+                        subtitle: l10n.products.toLowerCase(),
                         icon: Icons.track_changes,
                         color: AppTheme.primaryColor,
                       ),
                       const SizedBox(width: 12),
-                      const StatsCard(
-                        title: 'Saved',
+                      StatsCard(
+                        title: l10n.lowestPrice,
                         value: '\$0',
-                        subtitle: 'this month',
+                        subtitle: l10n.priceHistory,
                         icon: Icons.savings,
                         color: AppTheme.accentColor,
                       ),
                       const SizedBox(width: 12),
-                      const StatsCard(
-                        title: 'Alerts',
+                      StatsCard(
+                        title: l10n.priceAlerts,
                         value: '0',
-                        subtitle: 'new',
+                        subtitle: l10n.notifications,
                         icon: Icons.notifications_active,
                         color: AppTheme.secondaryColor,
                       ),
@@ -125,7 +127,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Tracked Products',
+                        l10n.products,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -135,7 +137,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           onPressed: () {
                             // 모든 상품 보기
                           },
-                          child: const Text('View All'),
+                          child: Text(l10n.viewDetails),
                         ),
                     ],
                   ),
@@ -161,13 +163,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                         Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
                         const SizedBox(height: 8),
                         Text(
-                          'Failed to load products',
+                          l10n.failedToLoadProducts,
                           style: TextStyle(color: Colors.red[400]),
                         ),
                         const SizedBox(height: 8),
                         ElevatedButton(
                           onPressed: () => ref.read(productProvider.notifier).loadProducts(),
-                          child: const Text('Retry'),
+                          child: Text(l10n.retry),
                         ),
                       ],
                     ),
@@ -177,7 +179,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               // Empty state
               if (productState.products.isEmpty && !productState.isLoading && productState.error == null)
                 SliverToBoxAdapter(
-                  child: _buildEmptyState(context),
+                  child: _buildEmptyState(context, l10n),
                 ),
               
               // Products List
@@ -219,12 +221,12 @@ class _HomePageState extends ConsumerState<HomePage> {
         onPressed: () => context.push('/add-product'),
         backgroundColor: AppTheme.primaryColor,
         icon: const Icon(Icons.add),
-        label: const Text('Track Product'),
+        label: Text(l10n.trackProduct),
       ),
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -245,14 +247,14 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           const SizedBox(height: 24),
           Text(
-            'No products yet',
+            l10n.noProducts,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Start tracking prices by adding\nyour first product',
+            l10n.addFirstProduct,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Colors.grey[600],
@@ -262,7 +264,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ElevatedButton.icon(
             onPressed: () => context.push('/add-product'),
             icon: const Icon(Icons.add),
-            label: const Text('Add Product'),
+            label: Text(l10n.addProduct),
           ),
         ],
       ),

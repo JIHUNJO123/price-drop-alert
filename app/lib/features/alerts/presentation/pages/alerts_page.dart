@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../../l10n/app_localizations.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/alert_provider.dart';
+import '../../../../core/utils/currency_formatter.dart';
 
 class AlertsPage extends ConsumerStatefulWidget {
   const AlertsPage({super.key});
@@ -25,20 +27,21 @@ class _AlertsPageState extends ConsumerState<AlertsPage> {
   @override
   Widget build(BuildContext context) {
     final alertState = ref.watch(alertProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Alerts'),
+        title: Text(l10n.priceAlerts),
         actions: [
           if (alertState.alerts.isNotEmpty)
             TextButton(
               onPressed: () {
                 ref.read(alertProvider.notifier).markAllAsRead();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('All alerts marked as read')),
+                  SnackBar(content: Text(l10n.done)),
                 );
               },
-              child: const Text('Mark all read'),
+              child: Text(l10n.done),
             ),
         ],
       ),
@@ -47,7 +50,7 @@ class _AlertsPageState extends ConsumerState<AlertsPage> {
         child: alertState.isLoading
             ? const Center(child: CircularProgressIndicator())
             : alertState.alerts.isEmpty
-                ? _buildEmptyState(context)
+                ? _buildEmptyState(context, l10n)
                 : ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: alertState.alerts.length,
@@ -70,7 +73,7 @@ class _AlertsPageState extends ConsumerState<AlertsPage> {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -92,14 +95,14 @@ class _AlertsPageState extends ConsumerState<AlertsPage> {
             ),
             const SizedBox(height: 24),
             Text(
-              'No alerts yet',
+              l10n.priceAlerts,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'We\'ll notify you when prices drop\non your tracked products',
+              l10n.notifyWhenPriceDrops,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.grey[600],
@@ -120,7 +123,7 @@ class _AlertCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currency = alert.currency;
     final savings = (alert.oldPrice ?? 0) - (alert.newPrice ?? 0);
     final isTargetReached = alert.alertType == 'target_reached';
     
@@ -236,7 +239,7 @@ class _AlertCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            currencyFormat.format(alert.oldPrice),
+                            CurrencyFormatter.format(alert.oldPrice!, currency: currency),
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               decoration: TextDecoration.lineThrough,
                               color: Colors.grey[500],
@@ -246,7 +249,7 @@ class _AlertCard extends StatelessWidget {
                           const Icon(Icons.arrow_forward, size: 12),
                           const SizedBox(width: 8),
                           Text(
-                            currencyFormat.format(alert.newPrice),
+                            CurrencyFormatter.format(alert.newPrice!, currency: currency),
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: AppTheme.priceDropColor,
@@ -264,7 +267,7 @@ class _AlertCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                '-${currencyFormat.format(savings)}',
+                                '-${CurrencyFormatter.format(savings, currency: currency)}',
                                 style: const TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,

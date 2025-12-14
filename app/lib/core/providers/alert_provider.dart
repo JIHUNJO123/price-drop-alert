@@ -11,6 +11,7 @@ class AlertItem {
   final double? oldPrice;
   final double? newPrice;
   final double? targetPrice;
+  final String currency;
   final bool isRead;
   final DateTime createdAt;
 
@@ -23,6 +24,7 @@ class AlertItem {
     this.oldPrice,
     this.newPrice,
     this.targetPrice,
+    this.currency = 'USD',
     required this.isRead,
     required this.createdAt,
   });
@@ -37,6 +39,7 @@ class AlertItem {
       oldPrice: json['old_price']?.toDouble(),
       newPrice: json['new_price']?.toDouble(),
       targetPrice: json['target_price']?.toDouble(),
+      currency: json['currency']?.toString() ?? 'USD',
       isRead: json['is_read'] ?? false,
       createdAt: json['created_at'] != null 
           ? DateTime.parse(json['created_at'].toString())
@@ -54,6 +57,7 @@ class AlertItem {
       oldPrice: oldPrice,
       newPrice: newPrice,
       targetPrice: targetPrice,
+      currency: currency,
       isRead: isRead ?? this.isRead,
       createdAt: createdAt,
     );

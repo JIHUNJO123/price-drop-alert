@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/product_provider.dart';
+import '../../../../core/utils/currency_formatter.dart';
 
 class AddProductPage extends ConsumerStatefulWidget {
   const AddProductPage({super.key});
@@ -129,9 +131,11 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Track Product'),
+        title: Text(l10n.trackProduct),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => context.pop(),
@@ -144,14 +148,14 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
           children: [
             // Instructions
             Text(
-              'Paste the product URL',
+              l10n.pasteUrl,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'We\'ll automatically track the price and notify you when it drops.',
+              l10n.enterUrl,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.grey[600],
               ),
@@ -203,20 +207,20 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _urlController.text.isNotEmpty ? _fetchAndAddProduct : null,
-                  child: const Text('Track This Product'),
+                  child: Text(l10n.startTracking),
                 ),
               ),
             
             // Loading
             if (_isLoading)
-              const Center(
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.all(40),
+                  padding: const EdgeInsets.all(40),
                   child: Column(
                     children: [
-                      CircularProgressIndicator(),
-                      SizedBox(height: 16),
-                      Text('Adding product...'),
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 16),
+                      Text(l10n.loading),
                     ],
                   ),
                 ),
@@ -250,7 +254,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
             // Preview Card
             if (_addedProduct != null) ...[
               const SizedBox(height: 24),
-              _buildSuccessCard(),
+              _buildSuccessCard(l10n),
             ],
             
             // Target Price Input (shown before adding)
@@ -259,7 +263,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
               
               // Target Price
               Text(
-                'Set target price (optional)',
+                l10n.setTargetPrice,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -271,7 +275,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
                 decoration: InputDecoration(
                   hintText: 'e.g., 149.99',
                   prefixIcon: const Icon(Icons.attach_money),
-                  helperText: 'We\'ll notify you when the price drops to this amount',
+                  helperText: l10n.notifyWhenPriceDrops,
                 ),
               ),
             ],
@@ -280,7 +284,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
             
             // Supported stores
             Text(
-              'Supported Stores',
+              l10n.supportedStores,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -338,7 +342,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
     );
   }
 
-  Widget _buildSuccessCard() {
+  Widget _buildSuccessCard(AppLocalizations l10n) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -351,7 +355,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
                   color: AppTheme.accentColor, size: 20),
                 const SizedBox(width: 8),
                 Text(
-                  'Product Added!',
+                  l10n.productAdded,
                   style: TextStyle(
                     color: AppTheme.accentColor,
                     fontWeight: FontWeight.w600,
@@ -404,7 +408,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '\$${_addedProduct!.currentPrice.toStringAsFixed(2)}',
+                        CurrencyFormatter.format(_addedProduct!.currentPrice, currency: _addedProduct!.currency),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppTheme.primaryColor,

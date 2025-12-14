@@ -5,10 +5,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../l10n/app_localizations.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/product_provider.dart';
 import '../../../../core/config/api_config.dart';
+import '../../../../core/utils/currency_formatter.dart';
 
 class ProductDetailPage extends ConsumerStatefulWidget {
   final String productId;
@@ -40,6 +42,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
     final productState = ref.watch(productProvider);
     final productId = widget.productId;  // UUID string, not int
     final product = productState.products.where((p) => p.id == productId).firstOrNull;
+    final l10n = AppLocalizations.of(context)!;
 
     if (productState.isLoading) {
       return Scaffold(
@@ -50,7 +53,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
 
     if (product == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Product')),
+        appBar: AppBar(title: Text(l10n.products)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,13 +61,13 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
               Icon(Icons.error_outline, size: 64, color: Colors.grey[400]),
               const SizedBox(height: 16),
               Text(
-                'Product not found',
+                l10n.productNotFound,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () => context.pop(),
-                child: const Text('Go Back'),
+                child: Text(l10n.back),
               ),
             ],
           ),
@@ -149,7 +152,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                   
                   // Price History Chart
                   Text(
-                    'Price History (30 days)',
+                    l10n.priceHistory,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -204,9 +207,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                     ),
                   ),
                   icon: const Icon(Icons.shopping_cart, size: 22),
-                  label: const Text(
-                    'Buy Now',
-                    style: TextStyle(
+                  label: Text(
+                    l10n.buyNow,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -227,7 +230,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.refresh),
-                      label: Text(_isRefreshing ? 'Refreshing...' : 'Refresh'),
+                      label: Text(_isRefreshing ? l10n.loading : l10n.refreshPrice),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -235,7 +238,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                     child: OutlinedButton.icon(
                       onPressed: () => _openProductPage(product.url),
                       icon: const Icon(Icons.open_in_new),
-                      label: const Text('View Page'),
+                      label: Text(l10n.viewDetails),
                     ),
                   ),
                 ],
@@ -264,7 +267,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Widget _buildPriceSection(BuildContext context, Product product) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currency = product.currency;
     final hasOriginalPrice = product.originalPrice != null && 
                              product.originalPrice! > product.currentPrice;
     final savings = hasOriginalPrice 
@@ -278,7 +281,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          currencyFormat.format(product.currentPrice),
+          CurrencyFormatter.format(product.currentPrice, currency: currency),
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: AppTheme.priceDropColor,
@@ -287,7 +290,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
         const SizedBox(width: 12),
         if (hasOriginalPrice) ...[
           Text(
-            currencyFormat.format(product.originalPrice),
+            CurrencyFormatter.format(product.originalPrice!, currency: currency),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               decoration: TextDecoration.lineThrough,
               color: Colors.grey[500],
@@ -314,36 +317,37 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Widget _buildPriceStats(BuildContext context, Product product) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currency = product.currency;
+    final l10n = AppLocalizations.of(context)!;
     
     return Row(
       children: [
         Expanded(
           child: _StatBox(
-            label: 'Lowest',
+            label: l10n.lowestPrice,
             value: product.lowestPrice != null 
-                ? currencyFormat.format(product.lowestPrice)
-                : currencyFormat.format(product.currentPrice),
+                ? CurrencyFormatter.format(product.lowestPrice!, currency: currency)
+                : CurrencyFormatter.format(product.currentPrice, currency: currency),
             color: AppTheme.priceDropColor,
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: _StatBox(
-            label: 'Highest',
+            label: l10n.highestPrice,
             value: product.highestPrice != null 
-                ? currencyFormat.format(product.highestPrice)
-                : currencyFormat.format(product.currentPrice),
+                ? CurrencyFormatter.format(product.highestPrice!, currency: currency)
+                : CurrencyFormatter.format(product.currentPrice, currency: currency),
             color: AppTheme.priceUpColor,
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: _StatBox(
-            label: 'Target',
+            label: l10n.targetPrice,
             value: product.targetPrice != null 
-                ? currencyFormat.format(product.targetPrice)
-                : 'Not set',
+                ? CurrencyFormatter.format(product.targetPrice!, currency: currency)
+                : '-',
             color: AppTheme.primaryColor,
           ),
         ),

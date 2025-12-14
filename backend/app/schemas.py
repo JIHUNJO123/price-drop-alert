@@ -173,6 +173,7 @@ class AlertResponse(BaseModel):
     alert_type: str
     old_price: Decimal
     new_price: Decimal
+    currency: str = "USD"
     title: str
     message: str
     status: str

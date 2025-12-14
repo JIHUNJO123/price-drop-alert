@@ -37,18 +37,18 @@ class SettingsPage extends ConsumerWidget {
           // Profile Section
           _buildSection(
             context,
-            title: 'Account',
+            title: l10n.account,
             children: [
               _SettingsTile(
                 icon: Icons.person_outline,
-                title: 'Profile',
-                subtitle: 'Manage your account',
-                onTap: () => _showProfileDialog(context, ref),
+                title: l10n.profile,
+                subtitle: l10n.account,
+                onTap: () => _showProfileDialog(context, ref, l10n),
               ),
               _SettingsTile(
                 icon: Icons.workspace_premium,
-                title: 'Subscription',
-                subtitle: 'Free Plan · 3 products',
+                title: l10n.subscription,
+                subtitle: '${l10n.freePlan} · 3 ${l10n.products.toLowerCase()}',
                 trailing: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
@@ -58,9 +58,9 @@ class SettingsPage extends ConsumerWidget {
                     color: AppTheme.primaryColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
-                    'Upgrade',
-                    style: TextStyle(
+                  child: Text(
+                    l10n.upgrade,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -77,12 +77,12 @@ class SettingsPage extends ConsumerWidget {
           // Notifications Section
           _buildSection(
             context,
-            title: 'Notifications',
+            title: l10n.notifications,
             children: [
               _SettingsTile(
                 icon: Icons.notifications_outlined,
-                title: 'Push Notifications',
-                subtitle: 'Get notified when prices drop',
+                title: l10n.pushNotifications,
+                subtitle: l10n.notifyWhenPriceDrops.split(' to')[0],
                 trailing: Switch(
                   value: pushNotifications,
                   onChanged: (value) {
@@ -103,13 +103,13 @@ class SettingsPage extends ConsumerWidget {
           // App Section
           _buildSection(
             context,
-            title: 'App',
+            title: l10n.appearance,
             children: [
               _SettingsTile(
                 icon: Icons.dark_mode_outlined,
-                title: 'Dark Mode',
-                subtitle: _getThemeModeText(themeMode),
-                onTap: () => _showDarkModeDialog(context, ref),
+                title: l10n.darkMode,
+                subtitle: _getThemeModeText(themeMode, l10n),
+                onTap: () => _showDarkModeDialog(context, ref, l10n),
               ),
               _SettingsTile(
                 icon: Icons.language,
@@ -123,27 +123,27 @@ class SettingsPage extends ConsumerWidget {
           // Support Section
           _buildSection(
             context,
-            title: 'Support',
+            title: l10n.support,
             children: [
               _SettingsTile(
                 icon: Icons.store_outlined,
-                title: 'Supported Stores',
-                subtitle: '50+ US retailers',
+                title: l10n.supportedStores,
+                subtitle: '100+ global retailers',
                 onTap: () => context.push('/supported-stores'),
               ),
               _SettingsTile(
                 icon: Icons.help_outline,
-                title: 'Help Center',
+                title: l10n.helpCenter,
                 onTap: () => context.push('/help-center'),
               ),
               _SettingsTile(
                 icon: Icons.feedback_outlined,
-                title: 'Send Feedback',
+                title: l10n.sendFeedback,
                 onTap: () => _sendFeedbackEmail(),
               ),
               _SettingsTile(
                 icon: Icons.star_outline,
-                title: 'Rate the App',
+                title: l10n.rateApp,
                 onTap: () => _rateApp(context),
               ),
             ],
@@ -156,12 +156,12 @@ class SettingsPage extends ConsumerWidget {
             children: [
               _SettingsTile(
                 icon: Icons.description_outlined,
-                title: 'Terms of Service',
+                title: l10n.termsOfService,
                 onTap: () => _openUrl('https://mypricedrop.vercel.app/terms.html'),
               ),
               _SettingsTile(
                 icon: Icons.privacy_tip_outlined,
-                title: 'Privacy Policy',
+                title: l10n.privacyPolicy,
                 onTap: () => _openUrl('https://mypricedrop.vercel.app/privacy.html'),
               ),
             ],
@@ -180,7 +180,7 @@ class SettingsPage extends ConsumerWidget {
                 foregroundColor: Colors.red,
                 side: const BorderSide(color: Colors.red),
               ),
-              child: const Text('Log Out'),
+              child: Text(l10n.logout),
             ),
           ),
           
@@ -202,11 +202,11 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  String _getThemeModeText(ThemeMode mode) {
+  String _getThemeModeText(ThemeMode mode, AppLocalizations l10n) {
     switch (mode) {
-      case ThemeMode.light: return 'Light';
-      case ThemeMode.dark: return 'Dark';
-      default: return 'Light';
+      case ThemeMode.light: return l10n.lightMode;
+      case ThemeMode.dark: return l10n.darkMode;
+      default: return l10n.lightMode;
     }
   }
 
@@ -217,11 +217,11 @@ class SettingsPage extends ConsumerWidget {
     }
   }
 
-  void _showProfileDialog(BuildContext context, WidgetRef ref) {
+  void _showProfileDialog(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Profile'),
+        title: Text(l10n.profile),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -234,7 +234,7 @@ class SettingsPage extends ConsumerWidget {
             const Text('test@example.com'),
             const SizedBox(height: 8),
             Text(
-              'Free Plan',
+              l10n.freePlan,
               style: TextStyle(color: Colors.grey[600]),
             ),
           ],
@@ -242,45 +242,39 @@ class SettingsPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Close'),
+            child: Text(l10n.done),
           ),
         ],
       ),
     );
   }
 
-  void _showDarkModeDialog(BuildContext context, WidgetRef ref) {
+  void _showDarkModeDialog(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
     final currentMode = ref.read(themeModeProvider);
     
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Theme'),
+        title: Text(l10n.theme),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             RadioListTile<ThemeMode>(
-              title: const Text('Light'),
+              title: Text(l10n.lightMode),
               value: ThemeMode.light,
               groupValue: currentMode,
               onChanged: (value) {
                 ref.read(themeModeProvider.notifier).setThemeMode(value!);
                 Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Theme set to Light mode')),
-                );
               },
             ),
             RadioListTile<ThemeMode>(
-              title: const Text('Dark'),
+              title: Text(l10n.darkMode),
               value: ThemeMode.dark,
               groupValue: currentMode,
               onChanged: (value) {
                 ref.read(themeModeProvider.notifier).setThemeMode(value!);
                 Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Theme set to Dark mode')),
-                );
               },
             ),
           ],
