@@ -11,6 +11,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/product_provider.dart';
 import '../../../../core/config/api_config.dart';
 import '../../../../core/utils/currency_formatter.dart';
+import '../../../../core/services/api_service.dart';
 
 class ProductDetailPage extends ConsumerStatefulWidget {
   final String productId;
@@ -23,6 +24,8 @@ class ProductDetailPage extends ConsumerStatefulWidget {
 
 class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   bool _isRefreshing = false;
+  List<Map<String, dynamic>>? _priceHistory;
+  bool _isLoadingHistory = true;
 
   @override
   void initState() {
@@ -33,7 +36,27 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
       if (state.products.isEmpty) {
         ref.read(productProvider.notifier).loadProducts();
       }
+      _loadPriceHistory();
     });
+  }
+
+  Future<void> _loadPriceHistory() async {
+    try {
+      final response = await ApiService().getPriceHistory(widget.productId, days: 30);
+      if (mounted) {
+        setState(() {
+          _priceHistory = (response['history'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+          _isLoadingHistory = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _priceHistory = [];
+          _isLoadingHistory = false;
+        });
+      }
+    }
   }
 
   @override
@@ -355,22 +378,38 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Widget _buildPriceChart(Product product) {
-    // 간단한 차트 데이터 (실제로는 가격 히스토리 API 필요)
+    // 로딩 중
+    if (_isLoadingHistory) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // 히스토리 데이터 파싱
+    final spots = <FlSpot>[];
     final currentPrice = product.currentPrice;
-    final variation = currentPrice * 0.1;
     
-    final spots = [
-      FlSpot(0, currentPrice + variation),
-      FlSpot(5, currentPrice + variation * 0.8),
-      FlSpot(10, currentPrice + variation * 0.5),
-      FlSpot(15, currentPrice + variation * 0.3),
-      FlSpot(20, currentPrice - variation * 0.2),
-      FlSpot(25, currentPrice),
-      FlSpot(30, currentPrice),
-    ];
+    if (_priceHistory != null && _priceHistory!.isNotEmpty) {
+      // 실제 가격 히스토리 데이터 사용
+      for (var i = 0; i < _priceHistory!.length; i++) {
+        final item = _priceHistory![i];
+        final price = (item['price'] is num) 
+            ? (item['price'] as num).toDouble()
+            : double.tryParse(item['price'].toString()) ?? currentPrice;
+        spots.add(FlSpot(i.toDouble(), price));
+      }
+    } else {
+      // 히스토리 데이터가 없으면 현재 가격만 표시
+      spots.add(FlSpot(0, currentPrice));
+      spots.add(FlSpot(1, currentPrice));
+    }
     
-    final minY = (currentPrice - variation * 1.5).floorToDouble();
-    final maxY = (currentPrice + variation * 1.5).ceilToDouble();
+    // min/max 계산
+    final prices = spots.map((s) => s.y).toList();
+    final minPrice = prices.reduce((a, b) => a < b ? a : b);
+    final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+    final priceRange = maxPrice - minPrice;
+    final padding = priceRange > 0 ? priceRange * 0.2 : currentPrice * 0.1;
+    final minY = (minPrice - padding).floorToDouble();
+    final maxY = (maxPrice + padding).ceilToDouble();
     
     return LineChart(
       LineChartData(
@@ -387,9 +426,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50,
+              reservedSize: 55,
               getTitlesWidget: (value, meta) => Text(
-                '\$${value.toInt()}',
+                CurrencyFormatter.formatCompact(value, currency: product.currency),
                 style: TextStyle(
                   fontSize: 10,
                   color: Colors.grey[600],
@@ -414,14 +453,39 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             isCurved: true,
             color: AppTheme.primaryColor,
             barWidth: 3,
-            dotData: const FlDotData(show: false),
+            dotData: FlDotData(
+              show: spots.length < 15,
+              getDotPainter: (spot, percent, barData, index) {
+                return FlDotCirclePainter(
+                  radius: 3,
+                  color: AppTheme.primaryColor,
+                  strokeWidth: 1,
+                  strokeColor: Colors.white,
+                );
+              },
+            ),
             belowBarData: BarAreaData(
               show: true,
               color: AppTheme.primaryColor.withOpacity(0.1),
             ),
           ),
         ],
-        minY: minY,
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipItems: (touchedSpots) {
+              return touchedSpots.map((spot) {
+                return LineTooltipItem(
+                  CurrencyFormatter.format(spot.y, currency: product.currency),
+                  const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              }).toList();
+            },
+          ),
+        ),
+        minY: minY > 0 ? minY : 0,
         maxY: maxY,
       ),
     );

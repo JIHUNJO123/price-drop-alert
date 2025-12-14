@@ -339,4 +339,22 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get onboardingDesc4 => 'Nie mehr zu viel bezahlen. Kaufen Sie zum perfekten Zeitpunkt und sparen Sie.';
+
+  @override
+  String get resetPassword => 'Passwort zurücksetzen';
+
+  @override
+  String get resetPasswordDesc => 'Geben Sie Ihre E-Mail ein und wir senden Ihnen Anweisungen zum Zurücksetzen Ihres Passworts.';
+
+  @override
+  String get sendResetLink => 'Link senden';
+
+  @override
+  String get resetEmailSent => 'Wenn ein Konto mit dieser E-Mail existiert, haben wir Anweisungen zum Zurücksetzen des Passworts gesendet.';
+
+  @override
+  String get comingSoon => 'Demnächst';
+
+  @override
+  String get socialLoginComingSoon => 'Social Login wird in einem zukünftigen Update verfügbar sein.';
 }

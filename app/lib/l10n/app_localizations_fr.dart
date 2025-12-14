@@ -339,4 +339,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardingDesc4 => 'Ne payez plus jamais trop. Achetez au moment parfait et économisez.';
+
+  @override
+  String get resetPassword => 'Réinitialiser le mot de passe';
+
+  @override
+  String get resetPasswordDesc => 'Entrez votre e-mail et nous vous enverrons des instructions pour réinitialiser votre mot de passe.';
+
+  @override
+  String get sendResetLink => 'Envoyer le lien';
+
+  @override
+  String get resetEmailSent => 'Si un compte existe avec cet e-mail, nous avons envoyé des instructions de réinitialisation.';
+
+  @override
+  String get comingSoon => 'Bientôt disponible';
+
+  @override
+  String get socialLoginComingSoon => 'La connexion sociale sera disponible dans une future mise à jour.';
 }

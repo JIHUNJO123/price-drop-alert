@@ -1,17 +1,26 @@
 /// API Configuration
 /// 
 /// 배포 전에 이 값을 서버 URL로 변경하세요.
+/// 
+/// Railway 배포: https://your-app.railway.app
+/// Oracle Cloud: https://api.yourdomain.com
+/// 로컬 개발: http://192.168.x.x:8000
 
 class ApiConfig {
   // 개발 환경: 로컬 컴퓨터 IP (폰 테스트용)
   // 폰과 컴퓨터가 같은 WiFi에 연결되어 있어야 합니다.
   static const String devBaseUrl = 'http://192.168.0.92:8000';
   
-  // 프로덕션 환경: 배포된 서버 URL
+  // 프로덕션 환경: Railway 또는 배포된 서버 URL
+  // Railway 예시: https://pricedrop-api.railway.app
+  // Oracle Cloud 예시: https://api.mypricedrop.com
   static const String prodBaseUrl = 'https://api.yourdomain.com';
   
-  // 현재 사용할 URL (개발 중에는 devBaseUrl 사용)
-  static const String baseUrl = devBaseUrl;
+  // 프로덕션 모드 토글 (배포 시 true로 변경)
+  static const bool isProduction = false;
+  
+  // 현재 사용할 URL
+  static String get baseUrl => isProduction ? prodBaseUrl : devBaseUrl;
   
   // API 버전
   static const String apiVersion = 'v1';

@@ -117,5 +117,12 @@
   "failedToRemoveProduct": "商品の削除に失敗しました",
   "productAdded": "商品を追加しました",
   "productRemoved": "商品を削除しました",
-  "priceUpdated": "価格を更新しました"
+  "priceUpdated": "価格を更新しました",
+  
+  "resetPassword": "パスワードをリセット",
+  "resetPasswordDesc": "メールアドレスを入力すると、パスワードリセットの案内をお送りします。",
+  "sendResetLink": "リセットリンクを送信",
+  "resetEmailSent": "このメールで登録されたアカウントがあれば、パスワードリセットの案内をお送りしました。",
+  "comingSoon": "近日公開",
+  "socialLoginComingSoon": "ソーシャルログインは今後のアップデートで提供予定です。"
 }

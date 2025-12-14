@@ -12,7 +12,8 @@ from sqlalchemy import select
 from app.database import get_db
 from app.models import User, SubscriptionTier, SubscriptionStatus
 from app.schemas import (
-    UserCreate, UserLogin, Token, UserResponse, UserUpdate
+    UserCreate, UserLogin, Token, UserResponse, UserUpdate,
+    ForgotPasswordRequest, ForgotPasswordResponse
 )
 from app.auth import (
     hash_password, verify_password, create_access_token, 
@@ -173,3 +174,30 @@ async def logout():
     Logout current user (client should discard token)
     """
     return {"message": "Successfully logged out"}
+
+
+@router.post("/forgot-password", response_model=ForgotPasswordResponse)
+async def forgot_password(
+    request: ForgotPasswordRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Request password reset email.
+    For security, always returns success even if email doesn't exist.
+    """
+    # Check if user exists (don't reveal this to client)
+    result = await db.execute(
+        select(User).where(User.email == request.email.lower())
+    )
+    user = result.scalar_one_or_none()
+    
+    if user:
+        # TODO: Send password reset email with token
+        # For now, just log it (in production, send actual email)
+        import logging
+        logging.info(f"Password reset requested for: {request.email}")
+    
+    # Always return success for security
+    return ForgotPasswordResponse(
+        message="If an account with that email exists, we've sent password reset instructions."
+    )

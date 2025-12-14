@@ -118,5 +118,12 @@
   "onboardingTitle3": "12 Sites da Amazon",
   "onboardingDesc3": "Suporta Amazon EUA, Japão, Coreia, Reino Unido, Alemanha e mais.",
   "onboardingTitle4": "Economize Dinheiro",
-  "onboardingDesc4": "Nunca pague demais. Compre no momento perfeito e economize."
+  "onboardingDesc4": "Nunca pague demais. Compre no momento perfeito e economize.",
+  
+  "resetPassword": "Redefinir Senha",
+  "resetPasswordDesc": "Digite seu e-mail e enviaremos instruções para redefinir sua senha.",
+  "sendResetLink": "Enviar Link",
+  "resetEmailSent": "Se existir uma conta com esse e-mail, enviamos instruções para redefinir a senha.",
+  "comingSoon": "Em Breve",
+  "socialLoginComingSoon": "O login social estará disponível em uma atualização futura."
 }

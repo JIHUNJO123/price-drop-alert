@@ -1,9 +1,5 @@
-import 'package:intl/intl.dart';
-
 /// Currency formatting utility for global price display
 class CurrencyFormatter {
-  static final Map<String, NumberFormat> _formatters = {};
-  
   /// Currency symbols
   static const Map<String, String> currencySymbols = {
     'USD': '\$',

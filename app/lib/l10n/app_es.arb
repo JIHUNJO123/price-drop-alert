@@ -118,5 +118,12 @@
   "onboardingTitle3": "12 Sitios de Amazon",
   "onboardingDesc3": "Soporta Amazon EE.UU., Japón, Corea, Reino Unido, Alemania y más.",
   "onboardingTitle4": "Ahorra Dinero",
-  "onboardingDesc4": "Nunca pagues de más. Compra en el momento perfecto y ahorra."
+  "onboardingDesc4": "Nunca pagues de más. Compra en el momento perfecto y ahorra.",
+  
+  "resetPassword": "Restablecer Contraseña",
+  "resetPasswordDesc": "Ingresa tu correo y te enviaremos instrucciones para restablecer tu contraseña.",
+  "sendResetLink": "Enviar Enlace",
+  "resetEmailSent": "Si existe una cuenta con ese correo, hemos enviado instrucciones para restablecer la contraseña.",
+  "comingSoon": "Próximamente",
+  "socialLoginComingSoon": "El inicio de sesión social estará disponible en una futura actualización."
 }

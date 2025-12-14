@@ -79,6 +79,14 @@ class UserUpdate(BaseModel):
     fcm_token: Optional[str] = None
 
 
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ForgotPasswordResponse(BaseModel):
+    message: str
+
+
 # ============ Product Schemas ============
 
 class ProductCreate(BaseModel):

@@ -330,4 +330,22 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboardingDesc4 => '비싸게 사지 마세요. 최적의 타이밍에 구매하고 절약하세요.';
+
+  @override
+  String get resetPassword => '비밀번호 재설정';
+
+  @override
+  String get resetPasswordDesc => '이메일 주소를 입력하면 비밀번호 재설정 안내를 보내드립니다.';
+
+  @override
+  String get sendResetLink => '재설정 링크 보내기';
+
+  @override
+  String get resetEmailSent => '해당 이메일로 등록된 계정이 있다면 비밀번호 재설정 안내를 보냈습니다.';
+
+  @override
+  String get comingSoon => '곧 출시 예정';
+
+  @override
+  String get socialLoginComingSoon => '소셜 로그인은 향후 업데이트에서 제공될 예정입니다.';
 }

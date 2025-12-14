@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/services/api_service.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -136,9 +137,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {
-                          // TODO: Forgot password flow
-                        },
+                        onPressed: () => _showForgotPasswordDialog(context, l10n),
                         child: Text(l10n.forgotPassword),
                       ),
                     ),
@@ -215,9 +214,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () {
-                        // TODO: Google Sign In
-                      },
+                      onPressed: () => _showComingSoonDialog(context, l10n),
                       icon: const Icon(Icons.g_mobiledata, size: 24),
                       label: const Text('Google'),
                     ),
@@ -225,9 +222,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   const SizedBox(width: 16),
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () {
-                        // TODO: Apple Sign In
-                      },
+                      onPressed: () => _showComingSoonDialog(context, l10n),
                       icon: const Icon(Icons.apple, size: 24),
                       label: const Text('Apple'),
                     ),
@@ -264,6 +259,102 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showForgotPasswordDialog(BuildContext context, AppLocalizations l10n) {
+    final emailController = TextEditingController();
+    bool isLoading = false;
+    
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(l10n.resetPassword),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.resetPasswordDesc,
+                style: TextStyle(color: Colors.grey[600], fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: l10n.email,
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  border: const OutlineInputBorder(),
+                ),
+                autofocus: true,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: isLoading ? null : () async {
+                final email = emailController.text.trim();
+                if (email.isEmpty) return;
+                
+                setState(() => isLoading = true);
+                
+                try {
+                  await ApiService().forgotPassword(email);
+                  if (ctx.mounted) {
+                    Navigator.pop(ctx);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(l10n.resetEmailSent),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  // Even on error, show success for security
+                  if (ctx.mounted) {
+                    Navigator.pop(ctx);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(l10n.resetEmailSent),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                }
+              },
+              child: isLoading
+                  ? const SizedBox(
+                      height: 16,
+                      width: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(l10n.sendResetLink),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showComingSoonDialog(BuildContext context, AppLocalizations l10n) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.comingSoon),
+        content: Text(l10n.socialLoginComingSoon),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.confirm),
+          ),
+        ],
       ),
     );
   }

@@ -118,5 +118,12 @@
   "onboardingTitle3": "12 Amazon-Seiten",
   "onboardingDesc3": "Unterstützt Amazon USA, Japan, Korea, UK, Deutschland und mehr.",
   "onboardingTitle4": "Geld sparen",
-  "onboardingDesc4": "Nie mehr zu viel bezahlen. Kaufen Sie zum perfekten Zeitpunkt und sparen Sie."
+  "onboardingDesc4": "Nie mehr zu viel bezahlen. Kaufen Sie zum perfekten Zeitpunkt und sparen Sie.",
+  
+  "resetPassword": "Passwort zurücksetzen",
+  "resetPasswordDesc": "Geben Sie Ihre E-Mail ein und wir senden Ihnen Anweisungen zum Zurücksetzen Ihres Passworts.",
+  "sendResetLink": "Link senden",
+  "resetEmailSent": "Wenn ein Konto mit dieser E-Mail existiert, haben wir Anweisungen zum Zurücksetzen des Passworts gesendet.",
+  "comingSoon": "Demnächst",
+  "socialLoginComingSoon": "Social Login wird in einem zukünftigen Update verfügbar sein."
 }

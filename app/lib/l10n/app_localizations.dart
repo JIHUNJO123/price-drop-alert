@@ -701,6 +701,24 @@ abstract class AppLocalizations {
 
   /// No description provided for @onboardingDesc4.
   String get onboardingDesc4;
+
+  /// No description provided for @resetPassword.
+  String get resetPassword;
+
+  /// No description provided for @resetPasswordDesc.
+  String get resetPasswordDesc;
+
+  /// No description provided for @sendResetLink.
+  String get sendResetLink;
+
+  /// No description provided for @resetEmailSent.
+  String get resetEmailSent;
+
+  /// No description provided for @comingSoon.
+  String get comingSoon;
+
+  /// No description provided for @socialLoginComingSoon.
+  String get socialLoginComingSoon;
 }
 
 class _AppLocalizationsDelegate

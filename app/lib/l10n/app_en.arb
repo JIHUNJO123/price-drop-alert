@@ -122,5 +122,12 @@
   "failedToRemoveProduct": "Failed to remove product",
   "productAdded": "Product added successfully",
   "productRemoved": "Product removed",
-  "priceUpdated": "Price updated"
+  "priceUpdated": "Price updated",
+  
+  "resetPassword": "Reset Password",
+  "resetPasswordDesc": "Enter your email address and we'll send you instructions to reset your password.",
+  "sendResetLink": "Send Reset Link",
+  "resetEmailSent": "If an account with that email exists, we've sent password reset instructions.",
+  "comingSoon": "Coming Soon",
+  "socialLoginComingSoon": "Social login will be available in a future update."
 }

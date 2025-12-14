@@ -383,49 +383,6 @@ class SettingsPage extends ConsumerWidget {
     }
   }
 
-  void _showRatingDialogLegacy(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Rate the App'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Enjoying MyPriceDrop?'),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
-                return IconButton(
-                  icon: Icon(
-                    index < 4 ? Icons.star : Icons.star_border,
-                    color: Colors.amber,
-                    size: 32,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Thank you for rating!'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  },
-                );
-              }),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Maybe Later'),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSection(
     BuildContext context, {
     required String title,

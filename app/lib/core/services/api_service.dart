@@ -85,6 +85,19 @@ class ApiService {
     await _storage.delete(key: 'access_token');
   }
 
+  /// 비밀번호 재설정 요청
+  Future<void> forgotPassword(String email) async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.apiUrl}/auth/forgot-password'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'email': email}),
+    );
+    
+    if (response.statusCode != 200) {
+      throw ApiException(response.statusCode, _parseError(response.body));
+    }
+  }
+
   // ============== Products ==============
   
   /// 상품 목록 가져오기
@@ -166,6 +179,20 @@ class ApiService {
       body: json.encode({
         'target_price': targetPrice,
       }),
+    );
+    
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw ApiException(response.statusCode, _parseError(response.body));
+    }
+  }
+
+  /// 가격 히스토리 가져오기
+  Future<Map<String, dynamic>> getPriceHistory(String productId, {int days = 30}) async {
+    final response = await http.get(
+      Uri.parse('${ApiConfig.products}/$productId/history?days=$days'),
+      headers: await _headers,
     );
     
     if (response.statusCode == 200) {

@@ -335,4 +335,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingDesc4 => 'Never overpay. Buy at the perfect time and save.';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get resetPasswordDesc => 'Enter your email address and we\'ll send you instructions to reset your password.';
+
+  @override
+  String get sendResetLink => 'Send Reset Link';
+
+  @override
+  String get resetEmailSent => 'If an account with that email exists, we\'ve sent password reset instructions.';
+
+  @override
+  String get comingSoon => 'Coming Soon';
+
+  @override
+  String get socialLoginComingSoon => 'Social login will be available in a future update.';
 }

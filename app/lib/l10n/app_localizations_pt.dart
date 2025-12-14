@@ -338,4 +338,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get onboardingDesc4 => 'Nunca pague demais. Compre no momento perfeito e economize.';
+
+  @override
+  String get resetPassword => 'Redefinir Senha';
+
+  @override
+  String get resetPasswordDesc => 'Digite seu e-mail e enviaremos instruções para redefinir sua senha.';
+
+  @override
+  String get sendResetLink => 'Enviar Link';
+
+  @override
+  String get resetEmailSent => 'Se existir uma conta com esse e-mail, enviamos instruções para redefinir a senha.';
+
+  @override
+  String get comingSoon => 'Em Breve';
+
+  @override
+  String get socialLoginComingSoon => 'O login social estará disponível em uma atualização futura.';
 }
