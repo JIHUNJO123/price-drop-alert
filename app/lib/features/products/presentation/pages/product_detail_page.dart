@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -93,10 +92,6 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
               ),
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: () => _shareProduct(product),
-              ),
               IconButton(
                 icon: const Icon(Icons.more_vert),
                 onPressed: () => _showOptionsMenu(context, product),
@@ -499,14 +494,6 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.share),
-              title: const Text('Share'),
-              onTap: () {
-                Navigator.pop(ctx);
-                _shareProduct(product);
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.copy),
               title: const Text('Copy Link'),
               onTap: () {
@@ -675,14 +662,6 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
         );
       }
     }
-  }
-
-  void _shareProduct(Product product) {
-    final text = '${product.name}\n'
-        'Current price: \$${product.currentPrice.toStringAsFixed(2)}\n'
-        '${product.url}';
-    
-    Share.share(text, subject: product.name);
   }
 
   void _copyProductLink(Product product) {
