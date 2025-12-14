@@ -96,10 +96,27 @@
   "productRemoved": "Produit supprimé",
   "priceUpdated": "Prix mis à jour",
   
+  "signIn": "Se connecter",
+  "welcomeBack": "Bon retour!",
+  "signInToContinue": "Connectez-vous pour continuer à suivre les prix",
+  "startSavingMoney": "Commencez à suivre les prix et économiser",
+  "orContinueWith": "Ou continuer avec",
+  "nameOptional": "Nom (optionnel)",
+  "pleaseEnterEmail": "Veuillez entrer votre e-mail",
+  "pleaseEnterValidEmail": "Veuillez entrer un e-mail valide",
+  "pleaseEnterPassword": "Veuillez entrer votre mot de passe",
+  "agreeToTerms": "J'accepte les",
+  "and": "et",
+  "pleaseAgreeToTerms": "Veuillez accepter les Conditions d'Utilisation",
+  "freeTrial": "Essai Gratuit de 3 Jours",
+  "tryProFeatures": "Essayez toutes les fonctionnalités Pro gratuitement",
+  
   "onboardingTitle1": "Suivez les Prix",
-  "onboardingDesc1": "Ajoutez des produits de vos boutiques préférées et suivez leurs prix automatiquement.",
-  "onboardingTitle2": "Recevez des Alertes",
-  "onboardingDesc2": "Définissez votre prix cible et soyez notifié quand le prix baisse.",
-  "onboardingTitle3": "Économisez de l'Argent",
-  "onboardingDesc3": "Ne payez plus jamais trop cher. Achetez au meilleur moment et économisez."
+  "onboardingDesc1": "Ajoutez des produits Amazon et suivez automatiquement les changements de prix.",
+  "onboardingTitle2": "Alertes Instantanées",
+  "onboardingDesc2": "Soyez notifié quand les prix atteignent votre objectif.",
+  "onboardingTitle3": "12 Sites Amazon",
+  "onboardingDesc3": "Supporte Amazon USA, Japon, Corée, UK, Allemagne et plus.",
+  "onboardingTitle4": "Économisez de l'Argent",
+  "onboardingDesc4": "Ne payez plus jamais trop. Achetez au moment parfait et économisez."
 }

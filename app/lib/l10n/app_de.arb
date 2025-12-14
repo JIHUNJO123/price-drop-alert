@@ -96,10 +96,27 @@
   "productRemoved": "Produkt entfernt",
   "priceUpdated": "Preis aktualisiert",
   
+  "signIn": "Anmelden",
+  "welcomeBack": "Willkommen zurück!",
+  "signInToContinue": "Melden Sie sich an, um Preise weiter zu verfolgen",
+  "startSavingMoney": "Beginnen Sie Preise zu verfolgen und Geld zu sparen",
+  "orContinueWith": "Oder fortfahren mit",
+  "nameOptional": "Name (optional)",
+  "pleaseEnterEmail": "Bitte geben Sie Ihre E-Mail ein",
+  "pleaseEnterValidEmail": "Bitte geben Sie eine gültige E-Mail ein",
+  "pleaseEnterPassword": "Bitte geben Sie Ihr Passwort ein",
+  "agreeToTerms": "Ich stimme den",
+  "and": "und",
+  "pleaseAgreeToTerms": "Bitte stimmen Sie den Nutzungsbedingungen zu",
+  "freeTrial": "3 Tage kostenlos testen",
+  "tryProFeatures": "Alle Pro-Funktionen kostenlos ausprobieren",
+  
   "onboardingTitle1": "Preise verfolgen",
-  "onboardingDesc1": "Fügen Sie Produkte aus Ihren Lieblingsshops hinzu und verfolgen Sie automatisch deren Preise.",
-  "onboardingTitle2": "Alarme erhalten",
-  "onboardingDesc2": "Legen Sie Ihren Zielpreis fest und werden Sie benachrichtigt, wenn der Preis fällt.",
-  "onboardingTitle3": "Geld sparen",
-  "onboardingDesc3": "Nie wieder zu viel bezahlen. Kaufen Sie zum besten Zeitpunkt und sparen Sie Geld."
+  "onboardingDesc1": "Fügen Sie Amazon-Produkte hinzu und verfolgen Sie automatisch Preisänderungen.",
+  "onboardingTitle2": "Sofortige Alarme erhalten",
+  "onboardingDesc2": "Werden Sie benachrichtigt, wenn Preise auf Ihr Ziel fallen.",
+  "onboardingTitle3": "12 Amazon-Seiten",
+  "onboardingDesc3": "Unterstützt Amazon USA, Japan, Korea, UK, Deutschland und mehr.",
+  "onboardingTitle4": "Geld sparen",
+  "onboardingDesc4": "Nie mehr zu viel bezahlen. Kaufen Sie zum perfekten Zeitpunkt und sparen Sie."
 }

@@ -287,4 +287,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingDesc3 =>
       'Never overpay again. Buy at the best time and save money.';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get welcomeBack => 'Welcome Back!';
+
+  @override
+  String get signInToContinue => 'Sign in to continue tracking prices';
+
+  @override
+  String get startSavingMoney => 'Start tracking prices and saving money';
+
+  @override
+  String get orContinueWith => 'Or continue with';
+
+  @override
+  String get nameOptional => 'Name (optional)';
+
+  @override
+  String get pleaseEnterEmail => 'Please enter your email';
+
+  @override
+  String get pleaseEnterValidEmail => 'Please enter a valid email';
+
+  @override
+  String get pleaseEnterPassword => 'Please enter your password';
+
+  @override
+  String get agreeToTerms => 'I agree to the';
+
+  @override
+  String get and => 'and';
+
+  @override
+  String get pleaseAgreeToTerms => 'Please agree to the Terms of Service';
+
+  @override
+  String get freeTrial => '3-Day Free Trial';
+
+  @override
+  String get tryProFeatures => 'Try all Pro features free';
+
+  @override
+  String get onboardingTitle4 => 'Save Money';
+
+  @override
+  String get onboardingDesc4 => 'Never overpay. Buy at the perfect time and save.';
 }

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
@@ -17,28 +18,28 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<OnboardingItem> _items = [
+  List<OnboardingItem> _getItems(AppLocalizations l10n) => [
     OnboardingItem(
-      title: 'Track Prices Across 50+ Stores',
-      description: 'Monitor prices from Amazon, Walmart, Target, Nike, Best Buy, and many more US retailers.',
+      title: l10n.onboardingTitle1,
+      description: l10n.onboardingDesc1,
       icon: Icons.store,
       color: AppTheme.primaryColor,
     ),
     OnboardingItem(
-      title: 'Simple One-Tap Tracking',
-      description: 'Just paste a product URL and we\'ll automatically start monitoring the price for you.',
+      title: l10n.onboardingTitle2,
+      description: l10n.onboardingDesc2,
       icon: Icons.touch_app,
       color: AppTheme.secondaryColor,
     ),
     OnboardingItem(
-      title: 'Get Instant Drop Alerts',
-      description: 'Set your target price and receive push notifications the moment prices drop.',
+      title: l10n.onboardingTitle3,
+      description: l10n.onboardingDesc3,
       icon: Icons.notifications_active,
       color: AppTheme.accentColor,
     ),
     OnboardingItem(
-      title: 'Never Miss a Deal',
-      description: 'Save money with smart price tracking. The average user saves \$300+ per year!',
+      title: l10n.onboardingTitle4,
+      description: l10n.onboardingDesc4,
       icon: Icons.savings,
       color: Colors.green,
     ),
@@ -46,6 +47,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final items = _getItems(l10n);
+    
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -55,7 +59,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
               alignment: Alignment.topRight,
               child: TextButton(
                 onPressed: () => _completeOnboarding('/login'),
-                child: const Text('Skip'),
+                child: Text(l10n.skip),
               ),
             ),
             
@@ -63,12 +67,12 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
-                itemCount: _items.length,
+                itemCount: items.length,
                 onPageChanged: (index) {
                   setState(() => _currentPage = index);
                 },
                 itemBuilder: (context, index) {
-                  return _buildPage(_items[index]);
+                  return _buildPage(items[index]);
                 },
               ),
             ),
@@ -77,7 +81,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                _items.length,
+                items.length,
                 (index) => _buildDot(index),
               ),
             ),
@@ -93,7 +97,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_currentPage < _items.length - 1) {
+                        if (_currentPage < items.length - 1) {
                           _pageController.nextPage(
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeInOut,
@@ -103,14 +107,14 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         }
                       },
                       child: Text(
-                        _currentPage < _items.length - 1 ? 'Next' : 'Get Started',
+                        _currentPage < items.length - 1 ? l10n.next : l10n.getStarted,
                       ),
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextButton(
                     onPressed: () => _completeOnboarding('/login'),
-                    child: const Text('Already have an account? Sign In'),
+                    child: Text('${l10n.alreadyHaveAccount} ${l10n.signIn}'),
                   ),
                 ],
               ),

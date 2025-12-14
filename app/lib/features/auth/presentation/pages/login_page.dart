@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -48,6 +49,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
+    final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
       body: SafeArea(
@@ -60,14 +62,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               
               // Header
               Text(
-                'Welcome back',
+                l10n.welcomeBack,
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Sign in to continue tracking prices',
+                l10n.signInToContinue,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.grey[600],
                 ),
@@ -85,16 +87,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
+                      decoration: InputDecoration(
+                        labelText: l10n.email,
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                          return l10n.pleaseEnterEmail;
                         }
                         if (!value.contains('@')) {
-                          return 'Please enter a valid email';
+                          return l10n.pleaseEnterValidEmail;
                         }
                         return null;
                       },
@@ -108,7 +110,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       obscureText: _obscurePassword,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: l10n.password,
                         prefixIcon: const Icon(Icons.lock_outlined),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -123,7 +125,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                          return l10n.pleaseEnterPassword;
                         }
                         return null;
                       },
@@ -139,7 +141,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         onPressed: () {
                           // TODO: Forgot password flow
                         },
-                        child: const Text('Forgot Password?'),
+                        child: Text(l10n.forgotPassword),
                       ),
                     ),
                     
@@ -184,7 +186,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text('Sign In'),
+                            : Text(l10n.signIn),
                       ),
                     ),
                   ],
@@ -200,7 +202,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'or continue with',
+                      l10n.orContinueWith,
                       style: TextStyle(color: Colors.grey[600]),
                     ),
                   ),
@@ -246,12 +248,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       style: Theme.of(context).textTheme.bodyMedium,
                       children: [
                         TextSpan(
-                          text: "Don't have an account? ",
+                          text: '${l10n.dontHaveAccount} ',
                           style: TextStyle(color: Colors.grey[600]),
                         ),
-                        const TextSpan(
-                          text: 'Sign Up',
-                          style: TextStyle(
+                        TextSpan(
+                          text: l10n.signup,
+                          style: const TextStyle(
                             color: AppTheme.primaryColor,
                             fontWeight: FontWeight.w600,
                           ),

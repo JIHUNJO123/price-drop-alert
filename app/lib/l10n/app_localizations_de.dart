@@ -291,4 +291,52 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get onboardingDesc3 =>
       'Nie wieder zu viel bezahlen. Kaufen Sie zum besten Zeitpunkt und sparen Sie Geld.';
+
+  @override
+  String get signIn => 'Anmelden';
+
+  @override
+  String get welcomeBack => 'Willkommen zurück!';
+
+  @override
+  String get signInToContinue => 'Melden Sie sich an, um Preise weiter zu verfolgen';
+
+  @override
+  String get startSavingMoney => 'Beginnen Sie Preise zu verfolgen und Geld zu sparen';
+
+  @override
+  String get orContinueWith => 'Oder fortfahren mit';
+
+  @override
+  String get nameOptional => 'Name (optional)';
+
+  @override
+  String get pleaseEnterEmail => 'Bitte geben Sie Ihre E-Mail ein';
+
+  @override
+  String get pleaseEnterValidEmail => 'Bitte geben Sie eine gültige E-Mail ein';
+
+  @override
+  String get pleaseEnterPassword => 'Bitte geben Sie Ihr Passwort ein';
+
+  @override
+  String get agreeToTerms => 'Ich stimme den';
+
+  @override
+  String get and => 'und';
+
+  @override
+  String get pleaseAgreeToTerms => 'Bitte stimmen Sie den Nutzungsbedingungen zu';
+
+  @override
+  String get freeTrial => '3 Tage kostenlos testen';
+
+  @override
+  String get tryProFeatures => 'Alle Pro-Funktionen kostenlos ausprobieren';
+
+  @override
+  String get onboardingTitle4 => 'Geld sparen';
+
+  @override
+  String get onboardingDesc4 => 'Nie mehr zu viel bezahlen. Kaufen Sie zum perfekten Zeitpunkt und sparen Sie.';
 }

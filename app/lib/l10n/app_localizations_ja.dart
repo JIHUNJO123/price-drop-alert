@@ -282,4 +282,52 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingDesc3 => 'もう高い買い物はしない。最適なタイミングで購入してお金を節約しましょう。';
+
+  @override
+  String get signIn => 'サインイン';
+
+  @override
+  String get welcomeBack => 'おかえりなさい！';
+
+  @override
+  String get signInToContinue => '価格追跡を続けるにはサインインしてください';
+
+  @override
+  String get startSavingMoney => '価格追跡を始めてお金を節約しましょう';
+
+  @override
+  String get orContinueWith => 'または次の方法で続ける';
+
+  @override
+  String get nameOptional => '名前（任意）';
+
+  @override
+  String get pleaseEnterEmail => 'メールアドレスを入力してください';
+
+  @override
+  String get pleaseEnterValidEmail => '有効なメールアドレスを入力してください';
+
+  @override
+  String get pleaseEnterPassword => 'パスワードを入力してください';
+
+  @override
+  String get agreeToTerms => '以下に同意します：';
+
+  @override
+  String get and => 'と';
+
+  @override
+  String get pleaseAgreeToTerms => '利用規約に同意してください';
+
+  @override
+  String get freeTrial => '3日間無料トライアル';
+
+  @override
+  String get tryProFeatures => 'すべてのPro機能を無料でお試しください';
+
+  @override
+  String get onboardingTitle4 => 'お金を節約';
+
+  @override
+  String get onboardingDesc4 => '高い買い物はしない。最適なタイミングで購入して節約しましょう。';
 }

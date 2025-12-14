@@ -653,6 +653,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Never overpay again. Buy at the best time and save money.'**
   String get onboardingDesc3;
+
+  /// No description provided for @signIn.
+  String get signIn;
+
+  /// No description provided for @welcomeBack.
+  String get welcomeBack;
+
+  /// No description provided for @signInToContinue.
+  String get signInToContinue;
+
+  /// No description provided for @startSavingMoney.
+  String get startSavingMoney;
+
+  /// No description provided for @orContinueWith.
+  String get orContinueWith;
+
+  /// No description provided for @nameOptional.
+  String get nameOptional;
+
+  /// No description provided for @pleaseEnterEmail.
+  String get pleaseEnterEmail;
+
+  /// No description provided for @pleaseEnterValidEmail.
+  String get pleaseEnterValidEmail;
+
+  /// No description provided for @pleaseEnterPassword.
+  String get pleaseEnterPassword;
+
+  /// No description provided for @agreeToTerms.
+  String get agreeToTerms;
+
+  /// No description provided for @and.
+  String get and;
+
+  /// No description provided for @pleaseAgreeToTerms.
+  String get pleaseAgreeToTerms;
+
+  /// No description provided for @freeTrial.
+  String get freeTrial;
+
+  /// No description provided for @tryProFeatures.
+  String get tryProFeatures;
+
+  /// No description provided for @onboardingTitle4.
+  String get onboardingTitle4;
+
+  /// No description provided for @onboardingDesc4.
+  String get onboardingDesc4;
 }
 
 class _AppLocalizationsDelegate

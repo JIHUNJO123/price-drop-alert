@@ -96,10 +96,27 @@
   "productRemoved": "Producto eliminado",
   "priceUpdated": "Precio actualizado",
   
+  "signIn": "Iniciar Sesión",
+  "welcomeBack": "¡Bienvenido de nuevo!",
+  "signInToContinue": "Inicia sesión para continuar rastreando precios",
+  "startSavingMoney": "Comienza a rastrear precios y ahorrar dinero",
+  "orContinueWith": "O continuar con",
+  "nameOptional": "Nombre (opcional)",
+  "pleaseEnterEmail": "Por favor ingresa tu correo electrónico",
+  "pleaseEnterValidEmail": "Por favor ingresa un correo válido",
+  "pleaseEnterPassword": "Por favor ingresa tu contraseña",
+  "agreeToTerms": "Acepto los",
+  "and": "y",
+  "pleaseAgreeToTerms": "Por favor acepta los Términos de Servicio",
+  "freeTrial": "Prueba Gratis de 3 Días",
+  "tryProFeatures": "Prueba todas las funciones Pro gratis",
+  
   "onboardingTitle1": "Rastrea Precios",
-  "onboardingDesc1": "Añade productos de tus tiendas favoritas y rastrea sus precios automáticamente.",
-  "onboardingTitle2": "Recibe Alertas",
-  "onboardingDesc2": "Establece tu precio objetivo y recibe notificaciones cuando baje.",
-  "onboardingTitle3": "Ahorra Dinero",
-  "onboardingDesc3": "Nunca pagues de más. Compra en el mejor momento y ahorra dinero."
+  "onboardingDesc1": "Añade productos de Amazon y rastrea automáticamente los cambios de precio.",
+  "onboardingTitle2": "Obtén Alertas Instantáneas",
+  "onboardingDesc2": "Recibe notificaciones cuando los precios bajen a tu objetivo.",
+  "onboardingTitle3": "12 Sitios de Amazon",
+  "onboardingDesc3": "Soporta Amazon EE.UU., Japón, Corea, Reino Unido, Alemania y más.",
+  "onboardingTitle4": "Ahorra Dinero",
+  "onboardingDesc4": "Nunca pagues de más. Compra en el momento perfecto y ahorra."
 }

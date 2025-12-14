@@ -282,4 +282,52 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboardingDesc3 => '더 이상 비싸게 사지 마세요. 최적의 타이밍에 구매하고 돈을 절약하세요.';
+
+  @override
+  String get signIn => '로그인';
+
+  @override
+  String get welcomeBack => '다시 오신 것을 환영합니다!';
+
+  @override
+  String get signInToContinue => '가격 추적을 계속하려면 로그인하세요';
+
+  @override
+  String get startSavingMoney => '가격 추적을 시작하고 돈을 절약하세요';
+
+  @override
+  String get orContinueWith => '또는 다음으로 계속하기';
+
+  @override
+  String get nameOptional => '이름 (선택사항)';
+
+  @override
+  String get pleaseEnterEmail => '이메일을 입력해주세요';
+
+  @override
+  String get pleaseEnterValidEmail => '유효한 이메일을 입력해주세요';
+
+  @override
+  String get pleaseEnterPassword => '비밀번호를 입력해주세요';
+
+  @override
+  String get agreeToTerms => '다음에 동의합니다:';
+
+  @override
+  String get and => '및';
+
+  @override
+  String get pleaseAgreeToTerms => '서비스 약관에 동의해주세요';
+
+  @override
+  String get freeTrial => '3일 무료 체험';
+
+  @override
+  String get tryProFeatures => '모든 Pro 기능을 무료로 체험하세요';
+
+  @override
+  String get onboardingTitle4 => '돈 절약';
+
+  @override
+  String get onboardingDesc4 => '비싸게 사지 마세요. 최적의 타이밍에 구매하고 절약하세요.';
 }

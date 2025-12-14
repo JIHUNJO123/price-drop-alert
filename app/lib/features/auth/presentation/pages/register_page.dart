@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'terms_page.dart';
 import 'privacy_page.dart';
 
@@ -30,11 +31,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.dispose();
   }
 
-  Future<void> _handleRegister() async {
+  Future<void> _handleRegister(AppLocalizations l10n) async {
     if (!_agreedToTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please agree to the Terms of Service'),
+        SnackBar(
+          content: Text(l10n.pleaseAgreeToTerms),
           backgroundColor: AppTheme.errorColor,
         ),
       );
@@ -58,6 +59,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
+    final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
       body: SafeArea(
@@ -70,14 +72,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               
               // Header
               Text(
-                'Create Account',
+                l10n.createAccount,
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Start tracking prices and saving money',
+                l10n.startSavingMoney,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.grey[600],
                 ),
@@ -96,10 +98,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       textInputAction: TextInputAction.next,
                       textCapitalization: TextCapitalization.words,
                       maxLength: 50,
-                      decoration: const InputDecoration(
-                        labelText: 'Name (optional)',
-                        prefixIcon: Icon(Icons.person_outlined),
-                        helperText: '2-50 characters, letters & numbers only',
+                      decoration: InputDecoration(
+                        labelText: l10n.nameOptional,
+                        prefixIcon: const Icon(Icons.person_outlined),
                         counterText: '',
                       ),
                       validator: (value) {
@@ -122,21 +123,19 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
-                        helperText: 'Valid email address required',
+                      decoration: InputDecoration(
+                        labelText: l10n.email,
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                          return l10n.pleaseEnterEmail;
                         }
-                        // More comprehensive email validation
                         final emailRegex = RegExp(
                           r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
                         );
                         if (!emailRegex.hasMatch(value)) {
-                          return 'Please enter a valid email address';
+                          return l10n.pleaseEnterValidEmail;
                         }
                         return null;
                       },
@@ -151,9 +150,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       textInputAction: TextInputAction.done,
                       maxLength: 128,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: l10n.password,
                         prefixIcon: const Icon(Icons.lock_outlined),
-                        helperText: 'Min 8 chars: uppercase, lowercase, number',
                         counterText: '',
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -168,7 +166,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a password';
+                          return l10n.pleaseEnterPassword;
                         }
                         if (value.length < 8) {
                           return 'Password must be at least 8 characters';
@@ -184,7 +182,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         }
                         return null;
                       },
-                      onFieldSubmitted: (_) => _handleRegister(),
+                      onFieldSubmitted: (_) => _handleRegister(l10n),
                     ),
                     
                     const SizedBox(height: 16),
@@ -207,7 +205,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           child: Wrap(
                             children: [
                               Text(
-                                'I agree to the ',
+                                '${l10n.agreeToTerms} ',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
@@ -215,9 +213,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                               GestureDetector(
                                 onTap: () => _showTermsOfService(context),
-                                child: const Text(
-                                  'Terms of Service',
-                                  style: TextStyle(
+                                child: Text(
+                                  l10n.termsOfService,
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     color: AppTheme.primaryColor,
                                     fontWeight: FontWeight.w600,
@@ -226,7 +224,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 ),
                               ),
                               Text(
-                                ' and ',
+                                ' ${l10n.and} ',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
@@ -234,9 +232,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                               GestureDetector(
                                 onTap: () => _showPrivacyPolicy(context),
-                                child: const Text(
-                                  'Privacy Policy',
-                                  style: TextStyle(
+                                child: Text(
+                                  l10n.privacyPolicy,
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     color: AppTheme.primaryColor,
                                     fontWeight: FontWeight.w600,
@@ -308,14 +306,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  '3-Day Free Trial',
-                                  style: TextStyle(
+                                Text(
+                                  l10n.freeTrial,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Text(
-                                  'Try all Pro features free',
+                                  l10n.tryProFeatures,
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey[600],
@@ -334,7 +332,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: authState.isLoading ? null : _handleRegister,
+                        onPressed: authState.isLoading ? null : () => _handleRegister(l10n),
                         child: authState.isLoading
                             ? const SizedBox(
                                 height: 20,
@@ -344,7 +342,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text('Create Account'),
+                            : Text(l10n.createAccount),
                       ),
                     ),
                   ],
@@ -362,12 +360,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       style: Theme.of(context).textTheme.bodyMedium,
                       children: [
                         TextSpan(
-                          text: 'Already have an account? ',
+                          text: '${l10n.alreadyHaveAccount} ',
                           style: TextStyle(color: Colors.grey[600]),
                         ),
-                        const TextSpan(
-                          text: 'Sign In',
-                          style: TextStyle(
+                        TextSpan(
+                          text: l10n.signIn,
+                          style: const TextStyle(
                             color: AppTheme.primaryColor,
                             fontWeight: FontWeight.w600,
                           ),
