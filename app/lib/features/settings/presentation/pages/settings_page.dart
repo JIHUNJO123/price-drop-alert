@@ -5,7 +5,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/providers/theme_provider.dart';
+import '../../../../core/providers/locale_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../l10n/app_localizations.dart';
 
 import 'package:in_app_review/in_app_review.dart';
 
@@ -23,10 +25,12 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pushNotifications = ref.watch(pushNotificationsProvider);
     final themeMode = ref.watch(themeModeProvider);
+    final locale = ref.watch(localeProvider);
+    final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(l10n.settings),
       ),
       body: ListView(
         children: [
@@ -109,9 +113,9 @@ class SettingsPage extends ConsumerWidget {
               ),
               _SettingsTile(
                 icon: Icons.language,
-                title: 'Language',
-                subtitle: 'English',
-                onTap: () => _showLanguageDialog(context),
+                title: l10n.language,
+                subtitle: _getCurrentLanguageName(locale),
+                onTap: () => _showLanguageDialog(context, ref),
               ),
             ],
           ),
@@ -285,34 +289,76 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  void _showLanguageDialog(BuildContext context) {
+  void _showLanguageDialog(BuildContext context, WidgetRef ref) {
+    final currentLocale = ref.read(localeProvider);
+    
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Language'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Text('🇺🇸'),
-              title: const Text('English'),
-              trailing: const Icon(Icons.check, color: AppTheme.primaryColor),
-              onTap: () => Navigator.pop(ctx),
-            ),
-            ListTile(
-              leading: const Text('🇰🇷'),
-              title: const Text('한국어'),
-              onTap: () {
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Coming soon!')),
-                );
-              },
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // System default option
+              ListTile(
+                leading: const Text('🌐'),
+                title: const Text('System Default'),
+                trailing: currentLocale == null
+                    ? const Icon(Icons.check, color: AppTheme.primaryColor)
+                    : null,
+                onTap: () {
+                  ref.read(localeProvider.notifier).setLocale(null);
+                  Navigator.pop(ctx);
+                },
+              ),
+              const Divider(),
+              // English
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('en'), '🇺🇸', 'English'),
+              // Spanish
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('es'), '🇪🇸', 'Español'),
+              // Portuguese
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('pt'), '🇧🇷', 'Português'),
+              // German
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('de'), '🇩🇪', 'Deutsch'),
+              // French
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('fr'), '🇫🇷', 'Français'),
+              // Japanese
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('ja'), '🇯🇵', '日本語'),
+              // Korean
+              _buildLanguageTile(ctx, ref, currentLocale, const Locale('ko'), '🇰🇷', '한국어'),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Widget _buildLanguageTile(
+    BuildContext dialogContext,
+    WidgetRef ref,
+    Locale? currentLocale,
+    Locale locale,
+    String flag,
+    String name,
+  ) {
+    final isSelected = currentLocale?.languageCode == locale.languageCode;
+    return ListTile(
+      leading: Text(flag),
+      title: Text(name),
+      trailing: isSelected
+          ? const Icon(Icons.check, color: AppTheme.primaryColor)
+          : null,
+      onTap: () {
+        ref.read(localeProvider.notifier).setLocale(locale);
+        Navigator.pop(dialogContext);
+      },
+    );
+  }
+
+  String _getCurrentLanguageName(Locale? locale) {
+    if (locale == null) return 'System Default';
+    return LocaleNotifier.getLanguageName(locale.languageCode);
   }
 
   Future<void> _sendFeedbackEmail() async {
