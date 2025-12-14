@@ -178,8 +178,8 @@ class _AlertCard extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: isTargetReached
-                                ? AppTheme.accentColor.withOpacity(0.1)
-                                : AppTheme.primaryColor.withOpacity(0.1),
+                                ? AppTheme.accentColor.withValues(alpha: 0.1)
+                                : AppTheme.primaryColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Row(
@@ -263,7 +263,7 @@ class _AlertCard extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: AppTheme.priceDropColor.withOpacity(0.1),
+                                color: AppTheme.priceDropColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(

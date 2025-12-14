@@ -255,7 +255,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: AppTheme.errorColor.withOpacity(0.1),
+                          color: AppTheme.errorColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -281,8 +281,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            AppTheme.primaryColor.withOpacity(0.1),
-                            AppTheme.secondaryColor.withOpacity(0.1),
+                            AppTheme.primaryColor.withValues(alpha: 0.1),
+                            AppTheme.secondaryColor.withValues(alpha: 0.1),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(12),

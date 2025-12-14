@@ -226,7 +226,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.errorColor.withOpacity(0.1),
+                  color: AppTheme.errorColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -308,9 +308,9 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.1),
+                color: Colors.amber.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +350,7 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
                 const SizedBox(width: 8),
                 Text(
                   l10n.productAdded,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppTheme.accentColor,
                     fontWeight: FontWeight.w600,
                   ),

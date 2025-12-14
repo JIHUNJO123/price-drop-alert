@@ -152,7 +152,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             height: 120,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [item.color.withOpacity(0.8), item.color],
+                colors: [item.color.withValues(alpha: 0.8), item.color],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

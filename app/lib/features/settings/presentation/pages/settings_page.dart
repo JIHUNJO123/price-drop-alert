@@ -227,7 +227,7 @@ class SettingsPage extends ConsumerWidget {
           children: [
             CircleAvatar(
               radius: 40,
-              backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
+              backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
               child: const Icon(Icons.person, size: 40, color: AppTheme.primaryColor),
             ),
             const SizedBox(height: 16),
@@ -457,10 +457,10 @@ class SettingsPage extends ConsumerWidget {
               const SizedBox(height: 32),
               
               // Features
-              _FeatureRow(icon: Icons.all_inclusive, text: 'Track unlimited products'),
-              _FeatureRow(icon: Icons.speed, text: 'Priority price updates'),
-              _FeatureRow(icon: Icons.history, text: '1 year price history'),
-              _FeatureRow(icon: Icons.support_agent, text: 'Priority support'),
+              const _FeatureRow(icon: Icons.all_inclusive, text: 'Track unlimited products'),
+              const _FeatureRow(icon: Icons.speed, text: 'Priority price updates'),
+              const _FeatureRow(icon: Icons.history, text: '1 year price history'),
+              const _FeatureRow(icon: Icons.support_agent, text: 'Priority support'),
               
               const SizedBox(height: 32),
               
@@ -629,7 +629,7 @@ class _PricingCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.accentColor.withOpacity(0.1) : null,
+          color: isSelected ? AppTheme.accentColor.withValues(alpha: 0.1) : null,
           border: Border.all(
             color: borderColor,
             width: borderWidth,
@@ -641,7 +641,7 @@ class _PricingCard extends StatelessWidget {
             if (isSelected) ...[
               Container(
                 padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppTheme.accentColor,
                   shape: BoxShape.circle,
                 ),
@@ -692,7 +692,7 @@ class _PricingCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       savings!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppTheme.accentColor,
                         fontWeight: FontWeight.w500,
                       ),

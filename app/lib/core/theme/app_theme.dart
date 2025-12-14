@@ -21,11 +21,11 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
         surface: Colors.white,
-        background: const Color(0xFFF8F9FA),
+        surfaceContainerHighest: Color(0xFFF8F9FA),
         error: errorColor,
       ),
       scaffoldBackgroundColor: const Color(0xFFF8F9FA),
@@ -102,11 +102,11 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      colorScheme: ColorScheme.dark(
+      colorScheme: const ColorScheme.dark(
         primary: primaryColor,
         secondary: secondaryColor,
-        surface: const Color(0xFF1E1E1E),
-        background: const Color(0xFF121212),
+        surface: Color(0xFF1E1E1E),
+        surfaceContainerHighest: Color(0xFF121212),
         error: errorColor,
       ),
       scaffoldBackgroundColor: const Color(0xFF121212),

@@ -138,7 +138,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -323,7 +323,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: AppTheme.priceDropColor.withOpacity(0.1),
+              color: AppTheme.priceDropColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
@@ -467,7 +467,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             ),
             belowBarData: BarAreaData(
               show: true,
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
             ),
           ),
         ],
@@ -808,7 +808,7 @@ class _StatBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
