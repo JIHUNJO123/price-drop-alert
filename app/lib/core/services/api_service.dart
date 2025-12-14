@@ -148,7 +148,7 @@ class ApiService {
       headers: await _headers,
     );
     
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 204) {
       throw ApiException(response.statusCode, _parseError(response.body));
     }
   }

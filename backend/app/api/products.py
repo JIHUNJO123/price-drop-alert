@@ -327,6 +327,7 @@ async def delete_product(
     
     product.is_active = False
     product.updated_at = datetime.utcnow()
+    await db.commit()
 
 
 @router.get("/{product_id}/history", response_model=PriceHistoryResponse)
