@@ -199,6 +199,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               originalPrice: product.originalPrice ?? product.currentPrice,
                               domain: product.domain,
                               priceChange: product.priceChangePercent ?? 0,
+                              currency: product.currency,
                             ),
                             onTap: () => context.push('/product/${product.id}'),
                           ),
@@ -278,6 +279,7 @@ class ProductData {
   final double originalPrice;
   final String domain;
   final double priceChange;
+  final String currency;
 
   ProductData({
     required this.id,
@@ -287,5 +289,6 @@ class ProductData {
     required this.originalPrice,
     required this.domain,
     required this.priceChange,
+    this.currency = 'USD',
   });
 }

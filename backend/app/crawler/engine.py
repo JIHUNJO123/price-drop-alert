@@ -1,11 +1,11 @@
 """
 Price Crawler Engine
-Playwright-based web scraping for US e-commerce sites
+Playwright-based web scraping for global e-commerce sites
 """
 import re
 import asyncio
 from decimal import Decimal
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
@@ -35,10 +35,40 @@ class CrawlResult:
 
 class PriceCrawler:
     """
-    Playwright-based crawler for extracting product prices from US e-commerce sites
+    Playwright-based crawler for extracting product prices from global e-commerce sites
     """
     
-    # Site-specific selectors for common US stores
+    # Currency mapping for different Amazon domains
+    AMAZON_CURRENCY_MAP: Dict[str, str] = {
+        "amazon.com": "USD",
+        "amazon.co.uk": "GBP",
+        "amazon.de": "EUR",
+        "amazon.fr": "EUR",
+        "amazon.es": "EUR",
+        "amazon.it": "EUR",
+        "amazon.co.jp": "JPY",
+        "amazon.ca": "CAD",
+        "amazon.com.au": "AUD",
+        "amazon.com.br": "BRL",
+        "amazon.com.mx": "MXN",
+        "amazon.nl": "EUR",
+        "amazon.pl": "PLN",
+        "amazon.se": "SEK",
+        "amazon.sg": "SGD",
+        "amazon.ae": "AED",
+        "amazon.sa": "SAR",
+        "amazon.in": "INR",
+    }
+    
+    # Amazon global domains (all share similar HTML structure)
+    AMAZON_DOMAINS: List[str] = [
+        "amazon.com", "amazon.co.uk", "amazon.de", "amazon.fr", "amazon.es",
+        "amazon.it", "amazon.co.jp", "amazon.ca", "amazon.com.au", "amazon.com.br",
+        "amazon.com.mx", "amazon.nl", "amazon.pl", "amazon.se", "amazon.sg",
+        "amazon.ae", "amazon.sa", "amazon.in",
+    ]
+    
+    # Site-specific selectors for common stores
     SITE_CONFIGS: Dict[str, Dict[str, Any]] = {
         # Shopify-based stores (common pattern)
         "shopify": {
@@ -166,6 +196,314 @@ class PriceCrawler:
                 "#imgTagWrapperId img",
             ],
             "wait_time": 5000,
+        },
+        
+        # Amazon UK
+        "amazon.co.uk": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "GBP",
+        },
+        
+        # Amazon Germany
+        "amazon.de": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "EUR",
+        },
+        
+        # Amazon France
+        "amazon.fr": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "EUR",
+        },
+        
+        # Amazon Spain
+        "amazon.es": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "EUR",
+        },
+        
+        # Amazon Italy
+        "amazon.it": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "EUR",
+        },
+        
+        # Amazon Japan
+        "amazon.co.jp": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "JPY",
+        },
+        
+        # Amazon Canada
+        "amazon.ca": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "CAD",
+        },
+        
+        # Amazon Australia
+        "amazon.com.au": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "AUD",
+        },
+        
+        # Amazon Brazil
+        "amazon.com.br": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "BRL",
+        },
+        
+        # Amazon Mexico
+        "amazon.com.mx": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "MXN",
+        },
+        
+        # Amazon India
+        "amazon.in": {
+            "price_selectors": [
+                "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+                "#corePrice_feature_div .a-price .a-offscreen",
+                ".a-price[data-a-size='xl'] .a-offscreen",
+                ".a-price[data-a-size='l'] .a-offscreen",
+                ".a-price[data-a-size='b'] .a-offscreen",
+                "span.a-price span.a-offscreen",
+                ".a-price .a-offscreen",
+                "#priceblock_ourprice",
+                "#priceblock_dealprice",
+                ".apexPriceToPay span.a-offscreen",
+                ".priceToPay span.a-offscreen",
+            ],
+            "name_selectors": [
+                "#productTitle",
+                "#title span",
+            ],
+            "image_selectors": [
+                "#landingImage",
+                "#imgBlkFront",
+                "#imgTagWrapperId img",
+            ],
+            "wait_time": 5000,
+            "currency": "INR",
         },
         
         # Home Depot
@@ -1503,13 +1841,18 @@ class PriceCrawler:
                 name=name[:50] if name else None
             )
             
+            # Determine currency from site config or domain
+            currency = config.get("currency", "USD")
+            if "amazon" in domain and domain in self.AMAZON_CURRENCY_MAP:
+                currency = self.AMAZON_CURRENCY_MAP[domain]
+            
             return CrawlResult(
                 success=True,
                 url=url,
                 domain=domain,
                 name=name or "Unknown Product",
                 price=price,
-                currency="USD",
+                currency=currency,
                 image_url=image_url,
                 is_available=is_available,
             )

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/currency_formatter.dart';
 import '../pages/home_page.dart';
 
 class ProductCard extends StatelessWidget {
@@ -17,7 +17,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
     final hasDiscount = product.priceChange < 0;
     
     return Card(
@@ -93,7 +92,7 @@ class ProductCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          currencyFormat.format(product.currentPrice),
+                          CurrencyFormatter.format(product.currentPrice, currency: product.currency),
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: hasDiscount 
@@ -104,7 +103,7 @@ class ProductCard extends StatelessWidget {
                         if (product.originalPrice != product.currentPrice) ...[
                           const SizedBox(width: 8),
                           Text(
-                            currencyFormat.format(product.originalPrice),
+                            CurrencyFormatter.format(product.originalPrice, currency: product.currency),
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               decoration: TextDecoration.lineThrough,
                               color: Colors.grey[500],

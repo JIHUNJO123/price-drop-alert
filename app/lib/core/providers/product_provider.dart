@@ -13,6 +13,7 @@ class Product {
   final double? highestPrice;
   final double? targetPrice;
   final String? imageUrl;
+  final String currency;
   final DateTime? lastUpdated;
   final DateTime createdAt;
 
@@ -27,6 +28,7 @@ class Product {
     this.highestPrice,
     this.targetPrice,
     this.imageUrl,
+    this.currency = 'USD',
     this.lastUpdated,
     required this.createdAt,
   });
@@ -43,6 +45,7 @@ class Product {
       highestPrice: _parseDoubleNullable(json['highest_price']),
       targetPrice: _parseDoubleNullable(json['target_price']),
       imageUrl: json['image_url']?.toString(),
+      currency: json['currency']?.toString() ?? 'USD',
       lastUpdated: json['last_crawled_at'] != null 
           ? DateTime.tryParse(json['last_crawled_at'].toString())
           : null,
