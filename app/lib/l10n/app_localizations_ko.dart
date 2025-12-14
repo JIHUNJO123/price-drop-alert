@@ -15,7 +15,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get home => '홈';
 
   @override
+  String get alerts => '알림';
+
+  @override
   String get settings => '설정';
+
+  @override
+  String get totalSavings => '총 절약액';
 
   @override
   String get profile => '프로필';

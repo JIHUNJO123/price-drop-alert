@@ -15,7 +15,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get home => 'Início';
 
   @override
+  String get alerts => 'Alertas';
+
+  @override
   String get settings => 'Configurações';
+
+  @override
+  String get totalSavings => 'Economia Total';
 
   @override
   String get profile => 'Perfil';

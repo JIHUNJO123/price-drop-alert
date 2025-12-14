@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/product_provider.dart';
+import '../../../../core/providers/alert_provider.dart';
 import '../widgets/product_card.dart';
 import '../widgets/stats_card.dart';
 
@@ -19,16 +20,26 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    // 페이지 로드시 상품 목록 불러오기
+    // 페이지 로드시 상품 목록 및 알림 불러오기
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).loadProducts();
+      ref.read(alertProvider.notifier).loadAlerts();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final productState = ref.watch(productProvider);
+    final alertState = ref.watch(alertProvider);
     final l10n = AppLocalizations.of(context)!;
+    
+    // 총 절약액 계산 (originalPrice - currentPrice의 합계)
+    double totalSavings = 0;
+    for (final product in productState.products) {
+      if (product.originalPrice != null && product.originalPrice! > product.currentPrice) {
+        totalSavings += (product.originalPrice! - product.currentPrice);
+      }
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -98,8 +109,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                       const SizedBox(width: 12),
                       StatsCard(
-                        title: l10n.lowestPrice,
-                        value: '\$0',
+                        title: l10n.totalSavings,
+                        value: '\$${totalSavings.toStringAsFixed(0)}',
                         subtitle: l10n.priceHistory,
                         icon: Icons.savings,
                         color: AppTheme.accentColor,
@@ -107,7 +118,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       const SizedBox(width: 12),
                       StatsCard(
                         title: l10n.priceAlerts,
-                        value: '0',
+                        value: '${alertState.unreadCount}',
                         subtitle: l10n.notifications,
                         icon: Icons.notifications_active,
                         color: AppTheme.secondaryColor,
@@ -134,10 +145,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                       if (productState.products.isNotEmpty)
                         TextButton(
-                          onPressed: () {
-                            // 모든 상품 보기
-                          },
-                          child: Text(l10n.viewDetails),
+                          onPressed: () => context.push('/add-product'),
+                          child: Text(l10n.addProduct),
                         ),
                     ],
                   ),

@@ -15,7 +15,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get home => 'ホーム';
 
   @override
+  String get alerts => 'アラート';
+
+  @override
   String get settings => '設定';
+
+  @override
+  String get totalSavings => '合計節約額';
 
   @override
   String get profile => 'プロフィール';

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../config/api_config.dart';
@@ -23,11 +24,32 @@ class ApiService {
     };
   }
 
+  // HTTP 요청 헬퍼 (타임아웃 적용)
+  Future<http.Response> _get(Uri url, {Map<String, String>? headers}) async {
+    return await http.get(url, headers: headers)
+        .timeout(ApiConfig.connectionTimeout);
+  }
+
+  Future<http.Response> _post(Uri url, {Map<String, String>? headers, Object? body}) async {
+    return await http.post(url, headers: headers, body: body)
+        .timeout(ApiConfig.connectionTimeout);
+  }
+
+  Future<http.Response> _patch(Uri url, {Map<String, String>? headers, Object? body}) async {
+    return await http.patch(url, headers: headers, body: body)
+        .timeout(ApiConfig.connectionTimeout);
+  }
+
+  Future<http.Response> _delete(Uri url, {Map<String, String>? headers}) async {
+    return await http.delete(url, headers: headers)
+        .timeout(ApiConfig.connectionTimeout);
+  }
+
   // ============== Auth ==============
   
   /// 로그인
   Future<Map<String, dynamic>> login(String email, String password) async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse(ApiConfig.authLogin),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
@@ -47,7 +69,7 @@ class ApiService {
   
   /// 회원가입
   Future<Map<String, dynamic>> register(String email, String password, String? name) async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse(ApiConfig.authRegister),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
@@ -68,7 +90,7 @@ class ApiService {
   
   /// 현재 사용자 정보
   Future<Map<String, dynamic>> getMe() async {
-    final response = await http.get(
+    final response = await _get(
       Uri.parse(ApiConfig.authMe),
       headers: await _headers,
     );
@@ -87,7 +109,7 @@ class ApiService {
 
   /// 비밀번호 재설정 요청
   Future<void> forgotPassword(String email) async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse('${ApiConfig.apiUrl}/auth/forgot-password'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'email': email}),
@@ -102,7 +124,7 @@ class ApiService {
   
   /// 상품 목록 가져오기
   Future<List<dynamic>> getProducts() async {
-    final response = await http.get(
+    final response = await _get(
       Uri.parse(ApiConfig.products),
       headers: await _headers,
     );
@@ -129,7 +151,7 @@ class ApiService {
         if (targetPrice != null) 'target_price': targetPrice,
       });
       
-      final response = await http.post(
+      final response = await _post(
         Uri.parse(ApiConfig.products),
         headers: headers,
         body: body,
@@ -147,7 +169,7 @@ class ApiService {
   
   /// 상품 삭제
   Future<void> deleteProduct(String productId) async {
-    final response = await http.delete(
+    final response = await _delete(
       Uri.parse('${ApiConfig.products}/$productId'),
       headers: await _headers,
     );
@@ -159,7 +181,7 @@ class ApiService {
   
   /// 상품 가격 새로고침
   Future<Map<String, dynamic>> refreshProduct(String productId) async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse('${ApiConfig.products}/$productId/refresh'),
       headers: await _headers,
     );
@@ -173,7 +195,7 @@ class ApiService {
   
   /// 목표 가격 업데이트
   Future<Map<String, dynamic>> updateTargetPrice(String productId, double targetPrice) async {
-    final response = await http.patch(
+    final response = await _patch(
       Uri.parse('${ApiConfig.products}/$productId'),
       headers: await _headers,
       body: json.encode({
@@ -190,7 +212,7 @@ class ApiService {
 
   /// 가격 히스토리 가져오기
   Future<Map<String, dynamic>> getPriceHistory(String productId, {int days = 30}) async {
-    final response = await http.get(
+    final response = await _get(
       Uri.parse('${ApiConfig.products}/$productId/history?days=$days'),
       headers: await _headers,
     );
@@ -206,7 +228,7 @@ class ApiService {
   
   /// 알림 목록
   Future<Map<String, dynamic>> getAlerts() async {
-    final response = await http.get(
+    final response = await _get(
       Uri.parse(ApiConfig.alerts),
       headers: await _headers,
     );
@@ -222,7 +244,7 @@ class ApiService {
   
   /// 알림 생성
   Future<Map<String, dynamic>> createAlert(String productId, double targetPrice) async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse(ApiConfig.alerts),
       headers: await _headers,
       body: json.encode({
@@ -240,7 +262,7 @@ class ApiService {
   
   /// 알림 읽음 처리
   Future<void> markAlertRead(String alertId) async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse('${ApiConfig.alerts}/$alertId/read'),
       headers: await _headers,
     );
@@ -252,7 +274,7 @@ class ApiService {
   
   /// 모든 알림 읽음 처리
   Future<void> markAllAlertsRead() async {
-    final response = await http.post(
+    final response = await _post(
       Uri.parse('${ApiConfig.alerts}/read-all'),
       headers: await _headers,
     );
@@ -266,7 +288,7 @@ class ApiService {
   
   /// 대시보드 통계
   Future<Map<String, dynamic>> getDashboard() async {
-    final response = await http.get(
+    final response = await _get(
       Uri.parse(ApiConfig.stats),
       headers: await _headers,
     );

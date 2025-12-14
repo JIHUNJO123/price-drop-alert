@@ -13,6 +13,7 @@ import '../../features/settings/presentation/pages/supported_stores_page.dart';
 import '../../features/settings/presentation/pages/help_center_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../providers/auth_provider.dart';
+import '../../l10n/app_localizations.dart';
 
 // Onboarding completed state provider
 final onboardingCompletedProvider = StateProvider<bool>((ref) => false);
@@ -113,26 +114,28 @@ class MainShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _getSelectedIndex(context),
         onDestinationSelected: (index) => _onDestinationSelected(context, index),
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: l10n.home,
           ),
           NavigationDestination(
-            icon: Icon(Icons.notifications_outlined),
-            selectedIcon: Icon(Icons.notifications),
-            label: 'Alerts',
+            icon: const Icon(Icons.notifications_outlined),
+            selectedIcon: const Icon(Icons.notifications),
+            label: l10n.alerts,
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.settings_outlined),
+            selectedIcon: const Icon(Icons.settings),
+            label: l10n.settings,
           ),
         ],
       ),

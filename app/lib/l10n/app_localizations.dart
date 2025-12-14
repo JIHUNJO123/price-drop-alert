@@ -120,11 +120,23 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @alerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get alerts;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @totalSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Savings'**
+  String get totalSavings;
 
   /// No description provided for @profile.
   ///
