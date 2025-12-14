@@ -19,7 +19,6 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
   final _urlController = TextEditingController();
   final _targetPriceController = TextEditingController();
   bool _isLoading = false;
-  bool _notifyAnyDrop = false;
   Product? _addedProduct;
   String? _error;
 
@@ -55,15 +54,11 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
         targetPrice = double.tryParse(_targetPriceController.text);
       }
       
-      print('Calling addProduct with URL: $url');
-      
       // Call API to add and track product
       final product = await ref.read(productProvider.notifier).addProduct(
         url,
         targetPrice: targetPrice,
       );
-      
-      print('Product result: $product');
       
       if (product != null) {
         setState(() {
@@ -91,7 +86,6 @@ class _AddProductPageState extends ConsumerState<AddProductPage> {
         });
       }
     } catch (e) {
-      print('Error in _fetchAndAddProduct: $e');
       setState(() {
         _error = _getFriendlyErrorMessage(e.toString());
         _isLoading = false;

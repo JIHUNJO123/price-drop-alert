@@ -39,10 +39,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final authState = ref.read(authStateProvider);
       if (authState.isLoggedIn && mounted) {
         context.go('/');
-      } else if (authState.error != null && mounted) {
-        // 에러는 UI에서 자동으로 표시됨
-        print('Login error: ${authState.error}');
       }
+      // 에러는 UI에서 자동으로 표시됨
     }
   }
 

@@ -102,8 +102,9 @@ class AlertNotifier extends StateNotifier<AlertState> {
     state = state.copyWith(isLoading: true, error: null);
     
     try {
-      final data = await _apiService.getAlerts();
-      final alerts = data.map((json) => AlertItem.fromJson(json)).toList();
+      final response = await _apiService.getAlerts();
+      final alertsList = response['alerts'] as List<dynamic>? ?? [];
+      final alerts = alertsList.map((json) => AlertItem.fromJson(json)).toList();
       state = state.copyWith(alerts: alerts, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

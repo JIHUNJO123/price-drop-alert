@@ -23,7 +23,6 @@ class ProductDetailPage extends ConsumerStatefulWidget {
 
 class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   bool _isRefreshing = false;
-  bool _isDeleting = false;
 
   @override
   void initState() {
@@ -643,8 +642,6 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Future<void> _deleteProduct(Product product) async {
-    setState(() => _isDeleting = true);
-    
     final success = await ref.read(productProvider.notifier).deleteProduct(product.id);
     
     if (mounted) {
@@ -657,7 +654,6 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
         );
         context.pop();
       } else {
-        setState(() => _isDeleting = false);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Failed to remove product'),

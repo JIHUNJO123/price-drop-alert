@@ -25,7 +25,7 @@ class ApiConfig {
   static String get authMe => '$apiUrl/auth/me';
   static String get products => '$apiUrl/products';
   static String get alerts => '$apiUrl/alerts';
-  static String get stats => '$apiUrl/stats/dashboard';
+  static String get stats => '$apiUrl/stats';
   
   // 타임아웃 설정
   static const Duration connectionTimeout = Duration(seconds: 30);

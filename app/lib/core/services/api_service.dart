@@ -108,27 +108,19 @@ class ApiService {
   
   /// 상품 추가 (URL로 트래킹)
   Future<Map<String, dynamic>> addProduct(String url, {double? targetPrice}) async {
-    print('Adding product: $url');
-    print('API URL: ${ApiConfig.products}');
-    
     try {
       final headers = await _headers;
-      print('Headers: $headers');
       
       final body = json.encode({
         'url': url,
         if (targetPrice != null) 'target_price': targetPrice,
       });
-      print('Body: $body');
       
       final response = await http.post(
-        Uri.parse(ApiConfig.products),  // /products (not /products/track)
+        Uri.parse(ApiConfig.products),
         headers: headers,
         body: body,
       );
-      
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
       
       if (response.statusCode == 200 || response.statusCode == 201) {
         return json.decode(response.body);
@@ -136,7 +128,6 @@ class ApiService {
         throw ApiException(response.statusCode, _parseError(response.body));
       }
     } catch (e) {
-      print('Error adding product: $e');
       rethrow;
     }
   }
@@ -187,14 +178,16 @@ class ApiService {
   // ============== Alerts ==============
   
   /// 알림 목록
-  Future<List<dynamic>> getAlerts() async {
+  Future<Map<String, dynamic>> getAlerts() async {
     final response = await http.get(
       Uri.parse(ApiConfig.alerts),
       headers: await _headers,
     );
     
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      final data = json.decode(response.body);
+      // API returns { "alerts": [...], "total": N, "unread_count": N }
+      return data is Map<String, dynamic> ? data : {'alerts': [], 'total': 0, 'unread_count': 0};
     } else {
       throw ApiException(response.statusCode, _parseError(response.body));
     }
@@ -233,7 +226,7 @@ class ApiService {
   /// 모든 알림 읽음 처리
   Future<void> markAllAlertsRead() async {
     final response = await http.post(
-      Uri.parse('${ApiConfig.alerts}/mark-all-read'),
+      Uri.parse('${ApiConfig.alerts}/read-all'),
       headers: await _headers,
     );
     
