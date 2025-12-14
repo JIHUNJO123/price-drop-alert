@@ -3,8 +3,8 @@ import '../services/api_service.dart';
 
 /// 알림 모델
 class AlertItem {
-  final int id;
-  final int productId;
+  final String id;
+  final String productId;
   final String productName;
   final String? productImage;
   final String alertType;
@@ -31,8 +31,8 @@ class AlertItem {
 
   factory AlertItem.fromJson(Map<String, dynamic> json) {
     return AlertItem(
-      id: json['id'] ?? 0,
-      productId: json['product_id'] ?? 0,
+      id: json['id']?.toString() ?? '',
+      productId: json['product_id']?.toString() ?? '',
       productName: json['product_name']?.toString() ?? 'Unknown',
       productImage: json['product_image']?.toString(),
       alertType: json['alert_type']?.toString() ?? 'price_drop',
@@ -40,7 +40,7 @@ class AlertItem {
       newPrice: json['new_price']?.toDouble(),
       targetPrice: json['target_price']?.toDouble(),
       currency: json['currency']?.toString() ?? 'USD',
-      isRead: json['is_read'] ?? false,
+      isRead: json['read_at'] != null,
       createdAt: json['created_at'] != null 
           ? DateTime.parse(json['created_at'].toString())
           : DateTime.now(),
@@ -112,7 +112,7 @@ class AlertNotifier extends StateNotifier<AlertState> {
   }
 
   /// 알림 읽음 처리
-  Future<void> markAsRead(int alertId) async {
+  Future<void> markAsRead(String alertId) async {
     try {
       await _apiService.markAlertRead(alertId);
       state = state.copyWith(

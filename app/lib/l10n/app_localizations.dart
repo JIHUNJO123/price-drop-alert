@@ -719,6 +719,45 @@ abstract class AppLocalizations {
 
   /// No description provided for @socialLoginComingSoon.
   String get socialLoginComingSoon;
+
+  /// No description provided for @lastUpdated.
+  String lastUpdated(String time);
+
+  /// No description provided for @noImageAvailable.
+  String get noImageAvailable;
+
+  /// No description provided for @updateTargetPrice.
+  String get updateTargetPrice;
+
+  /// No description provided for @targetPriceNotifyDesc.
+  String targetPriceNotifyDesc(String price);
+
+  /// No description provided for @setTargetPriceHint.
+  String get setTargetPriceHint;
+
+  /// No description provided for @currentPriceLabel.
+  String currentPriceLabel(String price);
+
+  /// No description provided for @enterTargetPrice.
+  String get enterTargetPrice;
+
+  /// No description provided for @confirmStopTracking.
+  String get confirmStopTracking;
+
+  /// No description provided for @confirmStopTrackingDesc.
+  String get confirmStopTrackingDesc;
+
+  /// No description provided for @minutesAgo.
+  String minutesAgo(int count);
+
+  /// No description provided for @hoursAgo.
+  String hoursAgo(int count);
+
+  /// No description provided for @daysAgo.
+  String daysAgo(int count);
+
+  /// No description provided for @justNow.
+  String get justNow;
 }
 
 class _AppLocalizationsDelegate

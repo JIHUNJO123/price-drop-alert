@@ -348,4 +348,43 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get socialLoginComingSoon => '소셜 로그인은 향후 업데이트에서 제공될 예정입니다.';
+
+  @override
+  String lastUpdated(String time) => '마지막 업데이트: $time';
+
+  @override
+  String get noImageAvailable => '이미지 없음';
+
+  @override
+  String get updateTargetPrice => '목표가 수정';
+
+  @override
+  String targetPriceNotifyDesc(String price) => '가격이 $price 이하로 떨어지면 알려드립니다.';
+
+  @override
+  String get setTargetPriceHint => '목표가를 설정하면 도달 시 알림을 받을 수 있습니다.';
+
+  @override
+  String currentPriceLabel(String price) => '현재 가격: $price';
+
+  @override
+  String get enterTargetPrice => '목표가 입력';
+
+  @override
+  String get confirmStopTracking => '이 상품의 추적을 중지할까요?';
+
+  @override
+  String get confirmStopTrackingDesc => '더 이상 이 상품의 가격 알림을 받지 않습니다.';
+
+  @override
+  String minutesAgo(int count) => '$count분 전';
+
+  @override
+  String hoursAgo(int count) => '$count시간 전';
+
+  @override
+  String daysAgo(int count) => '$count일 전';
+
+  @override
+  String get justNow => '방금 전';
 }

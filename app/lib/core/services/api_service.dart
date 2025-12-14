@@ -221,7 +221,7 @@ class ApiService {
   }
   
   /// 알림 생성
-  Future<Map<String, dynamic>> createAlert(int productId, double targetPrice) async {
+  Future<Map<String, dynamic>> createAlert(String productId, double targetPrice) async {
     final response = await http.post(
       Uri.parse(ApiConfig.alerts),
       headers: await _headers,
@@ -239,8 +239,8 @@ class ApiService {
   }
   
   /// 알림 읽음 처리
-  Future<void> markAlertRead(int alertId) async {
-    final response = await http.patch(
+  Future<void> markAlertRead(String alertId) async {
+    final response = await http.post(
       Uri.parse('${ApiConfig.alerts}/$alertId/read'),
       headers: await _headers,
     );

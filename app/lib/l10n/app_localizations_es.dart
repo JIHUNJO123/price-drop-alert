@@ -357,4 +357,43 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get socialLoginComingSoon => 'El inicio de sesión social estará disponible en una futura actualización.';
+
+  @override
+  String lastUpdated(String time) => 'Última actualización: $time';
+
+  @override
+  String get noImageAvailable => 'Imagen no disponible';
+
+  @override
+  String get updateTargetPrice => 'Actualizar Precio Objetivo';
+
+  @override
+  String targetPriceNotifyDesc(String price) => 'Te notificaremos cuando el precio baje a $price o menos.';
+
+  @override
+  String get setTargetPriceHint => 'Establece un precio objetivo para recibir notificaciones.';
+
+  @override
+  String currentPriceLabel(String price) => 'Precio actual: $price';
+
+  @override
+  String get enterTargetPrice => 'Ingresa el precio objetivo';
+
+  @override
+  String get confirmStopTracking => '¿Dejar de rastrear este producto?';
+
+  @override
+  String get confirmStopTrackingDesc => 'Ya no recibirás alertas de precio para este producto.';
+
+  @override
+  String minutesAgo(int count) => 'hace $count minutos';
+
+  @override
+  String hoursAgo(int count) => 'hace $count horas';
+
+  @override
+  String daysAgo(int count) => 'hace $count días';
+
+  @override
+  String get justNow => 'Ahora mismo';
 }

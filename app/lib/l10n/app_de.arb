@@ -125,5 +125,23 @@
   "sendResetLink": "Link senden",
   "resetEmailSent": "Wenn ein Konto mit dieser E-Mail existiert, haben wir Anweisungen zum Zurücksetzen des Passworts gesendet.",
   "comingSoon": "Demnächst",
-  "socialLoginComingSoon": "Social Login wird in einem zukünftigen Update verfügbar sein."
+  "socialLoginComingSoon": "Social Login wird in einem zukünftigen Update verfügbar sein.",
+  
+  "lastUpdated": "Letzte Aktualisierung: {time}",
+  "noImageAvailable": "Kein Bild verfügbar",
+  "setTargetPrice": "Zielpreis festlegen",
+  "updateTargetPrice": "Zielpreis aktualisieren",
+  "targetPriceNotifyDesc": "Wir benachrichtigen Sie, wenn der Preis auf {price} oder darunter fällt.",
+  "setTargetPriceHint": "Legen Sie einen Zielpreis fest, um benachrichtigt zu werden.",
+  "currentPriceLabel": "Aktueller Preis: {price}",
+  "enterTargetPrice": "Zielpreis eingeben",
+  "copyLink": "Link kopieren",
+  "stopTracking": "Verfolgung beenden",
+  "linkCopied": "Link kopiert",
+  "confirmStopTracking": "Dieses Produkt nicht mehr verfolgen?",
+  "confirmStopTrackingDesc": "Sie erhalten keine Preisbenachrichtigungen mehr für dieses Produkt.",
+  "minutesAgo": "vor {count} Minuten",
+  "hoursAgo": "vor {count} Stunden",
+  "daysAgo": "vor {count} Tagen",
+  "justNow": "Gerade eben"
 }

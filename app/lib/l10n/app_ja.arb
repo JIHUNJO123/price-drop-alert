@@ -124,5 +124,23 @@
   "sendResetLink": "リセットリンクを送信",
   "resetEmailSent": "このメールで登録されたアカウントがあれば、パスワードリセットの案内をお送りしました。",
   "comingSoon": "近日公開",
-  "socialLoginComingSoon": "ソーシャルログインは今後のアップデートで提供予定です。"
+  "socialLoginComingSoon": "ソーシャルログインは今後のアップデートで提供予定です。",
+  
+  "lastUpdated": "最終更新: {time}",
+  "noImageAvailable": "画像なし",
+  "setTargetPrice": "目標価格を設定",
+  "updateTargetPrice": "目標価格を変更",
+  "targetPriceNotifyDesc": "価格が{price}以下になるとお知らせします。",
+  "setTargetPriceHint": "目標価格を設定すると、到達時に通知を受け取れます。",
+  "currentPriceLabel": "現在の価格: {price}",
+  "enterTargetPrice": "目標価格を入力",
+  "copyLink": "リンクをコピー",
+  "stopTracking": "追跡を停止",
+  "linkCopied": "リンクをコピーしました",
+  "confirmStopTracking": "この商品の追跡を停止しますか？",
+  "confirmStopTrackingDesc": "この商品の価格通知を受け取らなくなります。",
+  "minutesAgo": "{count}分前",
+  "hoursAgo": "{count}時間前",
+  "daysAgo": "{count}日前",
+  "justNow": "たった今"
 }

@@ -129,5 +129,53 @@
   "sendResetLink": "Send Reset Link",
   "resetEmailSent": "If an account with that email exists, we've sent password reset instructions.",
   "comingSoon": "Coming Soon",
-  "socialLoginComingSoon": "Social login will be available in a future update."
+  "socialLoginComingSoon": "Social login will be available in a future update.",
+  
+  "lastUpdated": "Last updated: {time}",
+  "@lastUpdated": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "noImageAvailable": "No image available",
+  "setTargetPrice": "Set Target Price",
+  "updateTargetPrice": "Update Target Price",
+  "targetPriceNotifyDesc": "We'll notify you when the price drops to {price} or below.",
+  "@targetPriceNotifyDesc": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "setTargetPriceHint": "Set a target price to get notified when it's reached.",
+  "currentPriceLabel": "Current price: {price}",
+  "@currentPriceLabel": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "enterTargetPrice": "Enter target price",
+  "copyLink": "Copy Link",
+  "stopTracking": "Stop Tracking",
+  "linkCopied": "Link copied to clipboard",
+  "confirmStopTracking": "Stop tracking this product?",
+  "confirmStopTrackingDesc": "You will no longer receive price alerts for this product.",
+  "minutesAgo": "{count} minutes ago",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "hoursAgo": "{count} hours ago",
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "daysAgo": "{count} days ago",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "justNow": "Just now"
 }

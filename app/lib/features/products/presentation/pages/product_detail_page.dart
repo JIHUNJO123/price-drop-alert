@@ -195,7 +195,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                   // Last updated
                   Center(
                     child: Text(
-                      'Last updated: ${_formatLastUpdated(product.lastUpdated ?? product.createdAt)}',
+                      l10n.lastUpdated(_formatLastUpdated(product.lastUpdated ?? product.createdAt)),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.grey[500],
                       ),
@@ -273,6 +273,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Widget _buildPlaceholderImage() {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -280,7 +281,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
           Icon(Icons.shopping_bag_outlined, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 8),
           Text(
-            'No image available',
+            l10n.noImageAvailable,
             style: TextStyle(color: Colors.grey[500]),
           ),
         ],
@@ -492,6 +493,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Widget _buildTargetPriceSection(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+    final currency = product.currency;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -503,7 +506,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                 const Icon(Icons.flag, color: AppTheme.primaryColor),
                 const SizedBox(width: 8),
                 Text(
-                  'Target Price',
+                  l10n.targetPrice,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -513,8 +516,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             const SizedBox(height: 12),
             Text(
               product.targetPrice != null
-                  ? 'We\'ll notify you when the price drops to \$${product.targetPrice!.toStringAsFixed(2)} or below.'
-                  : 'Set a target price to get notified when it\'s reached.',
+                  ? l10n.targetPriceNotifyDesc(CurrencyFormatter.format(product.targetPrice!, currency: currency))
+                  : l10n.setTargetPriceHint,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.grey[600],
               ),
@@ -526,8 +529,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                 onPressed: () => _showTargetPriceDialog(context, product),
                 child: Text(
                   product.targetPrice != null 
-                      ? 'Update Target Price' 
-                      : 'Set Target Price',
+                      ? l10n.updateTargetPrice 
+                      : l10n.setTargetPrice,
                 ),
               ),
             ),
@@ -538,6 +541,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   void _showOptionsMenu(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       builder: (ctx) => SafeArea(
@@ -546,7 +550,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.refresh),
-              title: const Text('Refresh Price'),
+              title: Text(l10n.refreshPrice),
               onTap: () {
                 Navigator.pop(ctx);
                 _refreshPrice(product);
@@ -554,7 +558,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text('Edit Target Price'),
+              title: Text(l10n.updateTargetPrice),
               onTap: () {
                 Navigator.pop(ctx);
                 _showTargetPriceDialog(context, product);
@@ -562,7 +566,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             ),
             ListTile(
               leading: const Icon(Icons.copy),
-              title: const Text('Copy Link'),
+              title: Text(l10n.copyLink),
               onTap: () {
                 Navigator.pop(ctx);
                 _copyProductLink(product);
@@ -570,8 +574,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             ),
             ListTile(
               leading: const Icon(Icons.delete_outline, color: Colors.red),
-              title: const Text('Stop Tracking', 
-                style: TextStyle(color: Colors.red)),
+              title: Text(l10n.stopTracking, 
+                style: const TextStyle(color: Colors.red)),
               onTap: () {
                 Navigator.pop(ctx);
                 _confirmDelete(context, product);
@@ -584,6 +588,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   void _showTargetPriceDialog(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+    final currency = product.currency;
     final controller = TextEditingController(
       text: product.targetPrice?.toStringAsFixed(2) ?? '',
     );
@@ -591,23 +597,23 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Set Target Price'),
+        title: Text(l10n.setTargetPrice),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Current price: \$${product.currentPrice.toStringAsFixed(2)}',
+              l10n.currentPriceLabel(CurrencyFormatter.format(product.currentPrice, currency: currency)),
               style: TextStyle(color: Colors.grey[600]),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: controller,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(
-                prefixText: '\$ ',
-                hintText: 'Enter target price',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                prefixText: '${CurrencyFormatter.getSymbol(currency)} ',
+                hintText: l10n.enterTargetPrice,
+                border: const OutlineInputBorder(),
               ),
               autofocus: true,
             ),
@@ -616,7 +622,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -638,6 +644,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Future<void> _updateTargetPrice(Product product, double targetPrice) async {
+    final l10n = AppLocalizations.of(context)!;
+    final currency = product.currency;
     final success = await ref.read(productProvider.notifier).updateTargetPrice(
       product.id,
       targetPrice,
@@ -648,8 +656,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
         SnackBar(
           content: Text(
             success 
-                ? 'Target price set to \$${targetPrice.toStringAsFixed(2)}'
-                : 'Failed to update target price',
+                ? l10n.targetPriceNotifyDesc(CurrencyFormatter.format(targetPrice, currency: currency))
+                : l10n.somethingWentWrong,
           ),
           backgroundColor: success ? Colors.green : Colors.red,
         ),
@@ -658,6 +666,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   Future<void> _refreshPrice(Product product) async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isRefreshing = true);
     
     final updated = await ref.read(productProvider.notifier).refreshProduct(product.id);
@@ -669,8 +678,8 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
         SnackBar(
           content: Text(
             updated != null 
-                ? 'Price updated: \$${updated.currentPrice.toStringAsFixed(2)}'
-                : 'Failed to refresh price',
+                ? l10n.priceUpdated
+                : l10n.somethingWentWrong,
           ),
           backgroundColor: updated != null ? Colors.green : Colors.red,
         ),
@@ -679,18 +688,16 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   void _confirmDelete(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Stop Tracking'),
-        content: const Text(
-          'Are you sure you want to stop tracking this product? '
-          'Your price history will be deleted.',
-        ),
+        title: Text(l10n.confirmStopTracking),
+        content: Text(l10n.confirmStopTrackingDesc),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -698,7 +705,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
               await _deleteProduct(product);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -729,9 +736,10 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   void _copyProductLink(Product product) {
+    final l10n = AppLocalizations.of(context)!;
     Clipboard.setData(ClipboardData(text: product.url));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Link copied to clipboard')),
+      SnackBar(content: Text(l10n.linkCopied)),
     );
   }
 
@@ -766,13 +774,18 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   }
 
   String _formatLastUpdated(DateTime date) {
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final diff = now.difference(date);
     
-    if (diff.inMinutes < 60) {
-      return '${diff.inMinutes} minutes ago';
+    if (diff.inMinutes < 1) {
+      return l10n.justNow;
+    } else if (diff.inMinutes < 60) {
+      return l10n.minutesAgo(diff.inMinutes);
     } else if (diff.inHours < 24) {
-      return '${diff.inHours} hours ago';
+      return l10n.hoursAgo(diff.inHours);
+    } else if (diff.inDays < 7) {
+      return l10n.daysAgo(diff.inDays);
     } else {
       return DateFormat.MMMd().format(date);
     }

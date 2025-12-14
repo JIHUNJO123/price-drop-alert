@@ -348,4 +348,43 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get socialLoginComingSoon => 'ソーシャルログインは今後のアップデートで提供予定です。';
+
+  @override
+  String lastUpdated(String time) => '最終更新: $time';
+
+  @override
+  String get noImageAvailable => '画像なし';
+
+  @override
+  String get updateTargetPrice => '目標価格を変更';
+
+  @override
+  String targetPriceNotifyDesc(String price) => '価格が$price以下になるとお知らせします。';
+
+  @override
+  String get setTargetPriceHint => '目標価格を設定すると、到達時に通知を受け取れます。';
+
+  @override
+  String currentPriceLabel(String price) => '現在の価格: $price';
+
+  @override
+  String get enterTargetPrice => '目標価格を入力';
+
+  @override
+  String get confirmStopTracking => 'この商品の追跡を停止しますか？';
+
+  @override
+  String get confirmStopTrackingDesc => 'この商品の価格通知を受け取らなくなります。';
+
+  @override
+  String minutesAgo(int count) => '$count分前';
+
+  @override
+  String hoursAgo(int count) => '$count時間前';
+
+  @override
+  String daysAgo(int count) => '$count日前';
+
+  @override
+  String get justNow => 'たった今';
 }
